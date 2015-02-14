@@ -11,5 +11,5 @@ fi
 cd /home/healem/inih
 cmake -DCMAKE_TOOLCHAIN_FILE=/home/healem/bbb/toolchain-bbb.cmake
 make
-cp lib/*.a $LIBDIR
+cp lib/*.so $LIBDIR
 
