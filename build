@@ -1,0 +1,15 @@
+#!/bin/bash
+
+LIBDIR=/home/healem/builds/bbb/lib
+
+if [ ! -d $LIBDIR ]
+then
+    mkdir -p $LIBDIR
+fi
+
+# build inih
+cd /home/healem/inih
+cmake -DCMAKE_TOOLCHAIN_FILE=/home/healem/bbb/toolchain-bbb.cmake
+make
+cp lib/*.a $LIBDIR
+

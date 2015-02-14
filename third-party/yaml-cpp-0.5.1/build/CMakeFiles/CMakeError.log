@@ -1,0 +1,216 @@
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /home/healem/linaro/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux/bin/arm-linux-gnueabihf-g++ 
+Build flags: 
+Id flags: 
+
+The output was:
+1
+CMakeCCompilerId.c:2:3: error: #error "A C++ compiler has been selected for C."
+ # error "A C++ compiler has been selected for C."
+   ^
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /home/healem/linaro/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux/bin/arm-linux-gnueabihf-g++ 
+Build flags: 
+Id flags: -c
+
+The output was:
+1
+CMakeCCompilerId.c:2:3: error: #error "A C++ compiler has been selected for C."
+ # error "A C++ compiler has been selected for C."
+   ^
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /home/healem/linaro/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux/bin/arm-linux-gnueabihf-g++ 
+Build flags: 
+Id flags: -Aa
+
+The output was:
+1
+<command-line>:0:1: error: missing '(' after predicate
+CMakeCCompilerId.c:2:3: error: #error "A C++ compiler has been selected for C."
+ # error "A C++ compiler has been selected for C."
+   ^
+
+
+Determining if the C compiler works failed with the following output:
+Change Dir: /home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec.dir/build.make CMakeFiles/cmTryCompileExec.dir/build
+make[1]: Entering directory `/home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec.dir/testCCompiler.c.o
+/home/healem/linaro/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux/bin/arm-linux-gnueabihf-g++    -o CMakeFiles/cmTryCompileExec.dir/testCCompiler.c.o   -c /home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp/testCCompiler.c
+/home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp/testCCompiler.c:2:3: error: #error "The CMAKE_C_COMPILER is set to a C++ compiler"
+ # error "The CMAKE_C_COMPILER is set to a C++ compiler"
+   ^
+make[1]: *** [CMakeFiles/cmTryCompileExec.dir/testCCompiler.c.o] Error 1
+make[1]: Leaving directory `/home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp'
+make: *** [cmTryCompileExec/fast] Error 2
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /home/healem/linaro/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux/bin/arm-linux-gnueabihf-g++ 
+Build flags: 
+Id flags: 
+
+The output was:
+1
+CMakeCCompilerId.c:2:3: error: #error "A C++ compiler has been selected for C."
+ # error "A C++ compiler has been selected for C."
+   ^
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /home/healem/linaro/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux/bin/arm-linux-gnueabihf-g++ 
+Build flags: 
+Id flags: -c
+
+The output was:
+1
+CMakeCCompilerId.c:2:3: error: #error "A C++ compiler has been selected for C."
+ # error "A C++ compiler has been selected for C."
+   ^
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /home/healem/linaro/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux/bin/arm-linux-gnueabihf-g++ 
+Build flags: 
+Id flags: -Aa
+
+The output was:
+1
+<command-line>:0:1: error: missing '(' after predicate
+CMakeCCompilerId.c:2:3: error: #error "A C++ compiler has been selected for C."
+ # error "A C++ compiler has been selected for C."
+   ^
+
+
+Determining if the C compiler works failed with the following output:
+Change Dir: /home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec.dir/build.make CMakeFiles/cmTryCompileExec.dir/build
+make[1]: Entering directory `/home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec.dir/testCCompiler.c.o
+/home/healem/linaro/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux/bin/arm-linux-gnueabihf-g++    -o CMakeFiles/cmTryCompileExec.dir/testCCompiler.c.o   -c /home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp/testCCompiler.c
+/home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp/testCCompiler.c:2:3: error: #error "The CMAKE_C_COMPILER is set to a C++ compiler"
+ # error "The CMAKE_C_COMPILER is set to a C++ compiler"
+   ^
+make[1]: *** [CMakeFiles/cmTryCompileExec.dir/testCCompiler.c.o] Error 1
+make[1]: Leaving directory `/home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp'
+make: *** [cmTryCompileExec/fast] Error 2
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /home/healem/linaro/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux/bin/arm-linux-gnueabihf-g++ 
+Build flags: 
+Id flags: 
+
+The output was:
+1
+CMakeCCompilerId.c:2:3: error: #error "A C++ compiler has been selected for C."
+ # error "A C++ compiler has been selected for C."
+   ^
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /home/healem/linaro/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux/bin/arm-linux-gnueabihf-g++ 
+Build flags: 
+Id flags: -c
+
+The output was:
+1
+CMakeCCompilerId.c:2:3: error: #error "A C++ compiler has been selected for C."
+ # error "A C++ compiler has been selected for C."
+   ^
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /home/healem/linaro/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux/bin/arm-linux-gnueabihf-g++ 
+Build flags: 
+Id flags: -Aa
+
+The output was:
+1
+<command-line>:0:1: error: missing '(' after predicate
+CMakeCCompilerId.c:2:3: error: #error "A C++ compiler has been selected for C."
+ # error "A C++ compiler has been selected for C."
+   ^
+
+
+Determining if the C compiler works failed with the following output:
+Change Dir: /home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec.dir/build.make CMakeFiles/cmTryCompileExec.dir/build
+make[1]: Entering directory `/home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec.dir/testCCompiler.c.o
+/home/healem/linaro/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux/bin/arm-linux-gnueabihf-g++    -o CMakeFiles/cmTryCompileExec.dir/testCCompiler.c.o   -c /home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp/testCCompiler.c
+/home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp/testCCompiler.c:2:3: error: #error "The CMAKE_C_COMPILER is set to a C++ compiler"
+ # error "The CMAKE_C_COMPILER is set to a C++ compiler"
+   ^
+make[1]: *** [CMakeFiles/cmTryCompileExec.dir/testCCompiler.c.o] Error 1
+make[1]: Leaving directory `/home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp'
+make: *** [cmTryCompileExec/fast] Error 2
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /home/healem/linaro/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux/bin/arm-linux-gnueabihf-g++ 
+Build flags: 
+Id flags: 
+
+The output was:
+1
+CMakeCCompilerId.c:2:3: error: #error "A C++ compiler has been selected for C."
+ # error "A C++ compiler has been selected for C."
+   ^
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /home/healem/linaro/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux/bin/arm-linux-gnueabihf-g++ 
+Build flags: 
+Id flags: -c
+
+The output was:
+1
+CMakeCCompilerId.c:2:3: error: #error "A C++ compiler has been selected for C."
+ # error "A C++ compiler has been selected for C."
+   ^
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /home/healem/linaro/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux/bin/arm-linux-gnueabihf-g++ 
+Build flags: 
+Id flags: -Aa
+
+The output was:
+1
+<command-line>:0:1: error: missing '(' after predicate
+CMakeCCompilerId.c:2:3: error: #error "A C++ compiler has been selected for C."
+ # error "A C++ compiler has been selected for C."
+   ^
+
+
+Determining if the C compiler works failed with the following output:
+Change Dir: /home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec.dir/build.make CMakeFiles/cmTryCompileExec.dir/build
+make[1]: Entering directory `/home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec.dir/testCCompiler.c.o
+/home/healem/linaro/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux/bin/arm-linux-gnueabihf-g++    -o CMakeFiles/cmTryCompileExec.dir/testCCompiler.c.o   -c /home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp/testCCompiler.c
+/home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp/testCCompiler.c:2:3: error: #error "The CMAKE_C_COMPILER is set to a C++ compiler"
+ # error "The CMAKE_C_COMPILER is set to a C++ compiler"
+   ^
+make[1]: *** [CMakeFiles/cmTryCompileExec.dir/testCCompiler.c.o] Error 1
+make[1]: Leaving directory `/home/healem/bbb/third-party/yaml-cpp-0.5.1/build/CMakeFiles/CMakeTmp'
+make: *** [cmTryCompileExec/fast] Error 2
+
+
