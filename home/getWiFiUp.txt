@@ -1,0 +1,19 @@
+update-rc.d wicd disable
+
+vi /etc/wpa_supplicant/wpa_supplicant.conf:
+########################
+ctrl_interface=/var/run/wpa_supplicant
+network={
+        ssid="Healey"
+        key_mgmt=NONE
+}
+########################
+
+vi /etc/network/interfaces
+########################
+auto ra0
+allow-hotplug ra0
+iface ra0 inet dhcp
+    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+    wpa-driver wext
+########################
