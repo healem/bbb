@@ -18,6 +18,7 @@ public:
 	virtual std::string getName() = 0;
 	virtual int getTempInC() = 0;
 	virtual int getTempInF() = 0;
+	virtual int getTempRaw() = 0;
 protected:
 	TemperatureSensor();
 };

@@ -13,12 +13,18 @@
 class DS18B20: public TemperatureSensor {
 private:
 	std::string mName;
+	std::string mBaseDir;
+	std::string mFile;
+	std::string mSensorPath;
+	std::string getValueFromLine(std::string line);
+	bool isCrcValid(std::string crcValue);
 public:
 	DS18B20(const std::string& name);
 	virtual ~DS18B20();
 	virtual std::string getName();
 	virtual int getTempInC();
 	virtual int getTempInF();
+	virtual int getTempRaw();
 };
 
 #endif /* DS18B20_H_ */

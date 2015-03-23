@@ -16,8 +16,9 @@ using namespace std;
 int main() {
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
 
-	TemperatureSensor *ds = new DS18B20("test");
+	TemperatureSensor *ds = new DS18B20("woodBoiler");
 	cout << "Sensor name:" << ds->getName() << endl;
+	cout << "Current temp:" << ds->getTempInF() << endl;
 
 	return 0;
 }
