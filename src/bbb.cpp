@@ -14,11 +14,12 @@
 using namespace std;
 
 int main() {
-	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
-
-	TemperatureSensor *ds = new DS18B20("woodBoiler");
-	cout << "Sensor name:" << ds->getName() << endl;
-	cout << "Current temp:" << ds->getTempInF() << endl;
+	TemperatureSensor *woodBoiler = new DS18B20("woodBoiler");
+	TemperatureSensor *upstairsBoilerFeed = new DS18B20("upstairsBoilerFeed");
+	TemperatureSensor *mainfloorBoilerFeed = new DS18B20("mainfloorBoilerFeed");
+	cout << woodBoiler->getName() << " : " << woodBoiler->getTempInF() << endl;
+	cout << upstairsBoilerFeed->getName() << " : " << upstairsBoilerFeed->getTempInF() << endl;
+	cout << mainfloorBoilerFeed->getName() << " : " << mainfloorBoilerFeed->getTempInF() << endl;
 
 	return 0;
 }
