@@ -9,6 +9,7 @@
 #include <sstream>
 #include <cstdio>
 #include "ds18b20.h"
+#include "../../common/logger.h"
 
 DS18B20::DS18B20(const std::string& name) {
 	mName = name;
@@ -32,6 +33,7 @@ int DS18B20::getTempInC(){
 
 int DS18B20::getTempInF(){
 	int tempInC = DS18B20::getTempInC();
+	DEBUG("Temp in C: %d", tempInC);
 	return tempInC * 9 / 5 + 32;
 }
 
@@ -53,7 +55,7 @@ int DS18B20::getTempRaw(){
 	        std::string tempText = DS18B20::getValueFromLine(tempLine);
 	        if(isCrcValid(crcText))
 	        {
-	        	sscanf(tempText.c_str(), "%d", rawTemp);
+	        	sscanf(tempText.c_str(), "%d", &rawTemp);
 	        }
 		}
 	}
