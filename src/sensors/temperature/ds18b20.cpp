@@ -28,13 +28,24 @@ std::string DS18B20::getName(){
 
 int DS18B20::getTempInC(){
 	int rawTemp = DS18B20::getTempRaw();
-	return rawTemp / 1000;
+	int tempInC = rawTemp / 1000;
+
+	// If temp is 0, the fetch is likely invalid - try again
+	if(tempInC == 0)
+	{
+		WARN("Returned temp is 0, likely had issue - retrying");
+		rawTemp = DS18B20::getTempRaw();
+		tempInC = rawTemp / 1000;
+	}
+
+	return tempInC;
 }
 
 int DS18B20::getTempInF(){
 	int tempInC = DS18B20::getTempInC();
-	DEBUG("Temp in C: %d", tempInC);
-	return tempInC * 9 / 5 + 32;
+	int tempInF = tempInC * 9 / 5 + 32;
+	INFO("Temp in C: %d, Temp in F: %d", tempInC, tempInF);
+	return tempInF;
 }
 
 int DS18B20::getTempRaw(){
@@ -52,10 +63,13 @@ int DS18B20::getTempRaw(){
 	        std::getline(sensorOutput, tempLine);
 
 	        std::string crcText = DS18B20::getValueFromLine(crcLine);
+	        DEBUG("Raw temp crc: %s", crcLine.c_str());
 	        std::string tempText = DS18B20::getValueFromLine(tempLine);
+	        DEBUG("Raw temp text: %s", tempLine.c_str());
 	        if(isCrcValid(crcText))
 	        {
 	        	sscanf(tempText.c_str(), "%d", &rawTemp);
+	        	DEBUG("Temp text: %s, Temp int: %d", tempText.c_str(), rawTemp);
 	        }
 		}
 	}
