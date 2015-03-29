@@ -15,7 +15,7 @@
 #define LINE_STRING MAKE_STRING(__LINE__)
 
 #define DEBUG(...) Logger::getLogger()->Log(LOG_DEBUG, __FILE__,LINE_STRING, "[DEBUG]", __VA_ARGS__)
-#define INFO(...) Logger::getLogger()->Log(LOG_INFO, __FILE__,LINE_STRING, "[INFO]". __VA_ARGS__)
+#define INFO(...) Logger::getLogger()->Log(LOG_INFO, __FILE__,LINE_STRING, "[INFO]", __VA_ARGS__)
 #define WARN(...) Logger::getLogger()->Log(LOG_WARNING, __FILE__,LINE_STRING, "[WARN]", __VA_ARGS__)
 #define ERROR(...) Logger::getLogger()->Log(LOG_ERR, __FILE__,LINE_STRING, "[ERROR]", __VA_ARGS__)
 #define FATAL(...) Logger::getLogger()->Log(LOG_CRIT, __FILE__,LINE_STRING, "[FATAL]", __VA_ARGS__)
