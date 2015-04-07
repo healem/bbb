@@ -8,20 +8,19 @@
 
 #include <iostream>
 
-#include "sensors/temperature/temperature_sensor.h"
-#include "sensors/temperature/ds18b20.h"
+#include "sensors/temperature/temperature_sensor_manager.h"
 
 using namespace std;
 
 int main() {
-	TemperatureSensor *woodBoiler = new DS18B20("woodBoiler");
-	TemperatureSensor *upstairsBoilerFeed = new DS18B20("upstairsBoilerFeed");
-	TemperatureSensor *mainfloorBoilerFeed = new DS18B20("mainfloorBoilerFeed");
-	TemperatureSensor *hotwaterBoilerFeed = new DS18B20("hotwaterBoilerFeed");
-	cout << woodBoiler->getName() << " : " << woodBoiler->getTempInF() << endl;
-	cout << upstairsBoilerFeed->getName() << " : " << upstairsBoilerFeed->getTempInF() << endl;
-	cout << mainfloorBoilerFeed->getName() << " : " << mainfloorBoilerFeed->getTempInF() << endl;
-	cout << hotwaterBoilerFeed->getName() << " : " << hotwaterBoilerFeed->getTempInF() << endl;
+	TemperatureSensorManager *tsm = new TemperatureSensorManager();
+	tsm->discoverSensors();
+	std::vector<std::string> sensors = tsm->getAllSensors();
+	std::vector<std::string>::iterator sensorIt;
+	for(sensorIt = sensors.begin(); sensorIt != sensors.end(); ++sensorIt)
+	{
+		cout << *sensorIt << " : " << tsm->getTempInF(*sensorIt) << endl;
+	}
 
 	return 0;
 }

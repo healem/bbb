@@ -11,11 +11,9 @@
 #include "ds18b20.h"
 #include "../../common/logger.h"
 
-DS18B20::DS18B20(const std::string& name) {
+DS18B20::DS18B20(const std::string& name, const std::string& path) {
 	mName = name;
-	mFile = "w1_slave";
-	mBaseDir = "/etc/bbb/dev/temp/";
-	mSensorPath = mBaseDir + mName + "/" + mFile;
+	mSensorPath = path;
 }
 
 DS18B20::~DS18B20() {
@@ -73,6 +71,7 @@ int DS18B20::getTempRaw(){
 	        }
 		}
 	}
+
 	return rawTemp;
 }
 
