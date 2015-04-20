@@ -1,28 +1,29 @@
 #!/bin/bash
+set -e
 
-$OPTS=""
+OPTS=""
 
-while [[ $# > 1 ]]
+while [[ $# > 0 ]]
 do
   key="$1"
 
   case $key in
     clang)
-    COMPILER="$1"
+    echo "using clang"
+    COMPILER="$key"
     OPTS="-DCMAKE_USER_MAKE_RULES_OVERRIDE=$HOMEDIR/clang-overrides.txt"
-    shift
     ;;
     gnu)
-    COMPILER="$1"
-    shift
+    echo "using gnu"
+    COMPILER="$key"
     ;;
     arm)
-    ARCH="$1"
-    shift
+    echo "targeting arm"
+    ARCH="$key"
     ;;
     intel)
-    ARCH="$1"
-    shift
+    echo "targeting intel"
+    ARCH="$key"
     ;;
     *)
     echo "Unknown option, using defaults"
@@ -30,10 +31,11 @@ do
     ARCH="arm"
     ;;
   esac
+  shift
 done
 
 HOMEDIR=/home/healem/bbb
-TARGETDIR=$HOMEDIR/$COMPILER-$ARCH-bbb
+TARGETDIR=$HOMEDIR/builds/$COMPILER-$ARCH-bbb
 LIBDIR=$TARGETDIR/lib
 
 if [ ! -d $LIBDIR ]
@@ -42,10 +44,10 @@ then
 fi
 
 # build inih
-cd /home/healem/inih
-cmake -DCMAKE_TOOLCHAIN_FILE=$HOMEDIR/$COMPILER-$ARCH-toolchain.cmake $OPTS
-make
-cp lib/*.so $LIBDIR
+#cd /home/healem/inih
+#cmake -DCMAKE_TOOLCHAIN_FILE=$HOMEDIR/$COMPILER-$ARCH-toolchain.cmake $OPTS
+#make
+#cp lib/*.so $LIBDIR
 
 # build bbb
 cd $HOMEDIR

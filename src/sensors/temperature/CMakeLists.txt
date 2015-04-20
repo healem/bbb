@@ -1,0 +1,3 @@
+add_library(temperature_sensor temperature_sensor.cpp)
+add_library(temperature_sensor_manager temperature_sensor_manager.cpp)
+add_library(ds18b20 ds18b20.cpp)
