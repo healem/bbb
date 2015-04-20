@@ -1,15 +1,54 @@
 #!/bin/bash
 
-LIBDIR=/home/healem/builds/bbb/lib
+$OPTS=""
+
+while [[ $# > 1 ]]
+do
+  key="$1"
+
+  case $key in
+    clang)
+    COMPILER="$1"
+    OPTS="-DCMAKE_USER_MAKE_RULES_OVERRIDE=$HOMEDIR/clang-overrides.txt"
+    shift
+    ;;
+    gnu)
+    COMPILER="$1"
+    shift
+    ;;
+    arm)
+    ARCH="$1"
+    shift
+    ;;
+    intel)
+    ARCH="$1"
+    shift
+    ;;
+    *)
+    echo "Unknown option, using defaults"
+    COMPILER="gnu"
+    ARCH="arm"
+    ;;
+  esac
+done
+
+HOMEDIR=/home/healem/bbb
+TARGETDIR=$HOMEDIR/$COMPILER-$ARCH-bbb
+LIBDIR=$TARGETDIR/lib
 
 if [ ! -d $LIBDIR ]
 then
-    mkdir -p $LIBDIR
+  mkdir -p $LIBDIR
 fi
 
 # build inih
 cd /home/healem/inih
-cmake -DCMAKE_TOOLCHAIN_FILE=/home/healem/bbb/toolchain-bbb.cmake
+cmake -DCMAKE_TOOLCHAIN_FILE=$HOMEDIR/$COMPILER-$ARCH-toolchain.cmake $OPTS
 make
 cp lib/*.so $LIBDIR
+
+# build bbb
+cd $HOMEDIR
+cmake -DCMAKE_TOOLCHAIN_FILE=$HOMEDIR/$COMPILER-$ARCH-toolchain.cmake $OPTS
+make
 

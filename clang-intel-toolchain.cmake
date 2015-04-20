@@ -1,4 +1,4 @@
-# CMake toolchain file for building ARM software on OI environment
+# CMake toolchain file for building Intel software on OI environment
 # this one is important
 SET(CMAKE_SYSTEM_NAME Linux)
 #this one not so much
@@ -8,12 +8,12 @@ SET(BUILD_SHARED_LIBS ON)
 # specify the cross compiler
 SET(CMAKE_C_COMPILER /usr/bin/clang-3.5)
 SET(CMAKE_CXX_COMPILER /usr/bin/clang++-3.5)
-#SET(CMAKE_STRIP /usr/bin/arm-linux-gnueabihf-strip)
+#SET(CMAKE_STRIP /usr/bin/strip)
 # where is the target environment
-SET(CMAKE_FIND_ROOT_PATH /usr/arm-linux-gnueabihf)
+SET(CMAKE_FIND_ROOT_PATH /lib/x86_64-linux-gnu)
 # Set staging area
-SET(CMAKE_STAGING_PREFIX /home/healem/clang-arm-staging)
-SET(CMAKE_INSTALL_PREFIX /home/healem/builds/clang-arm-bbb)
+SET(CMAKE_STAGING_PREFIX /home/healem/clang-intel-staging)
+SET(CMAKE_INSTALL_PREFIX /home/healem/builds/clang-intel-bbb)
 # search for programs in the build host directories
 SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 # for libraries and headers in the target directories
