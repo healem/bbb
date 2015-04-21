@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+HOMEDIR=/home/healem/bbb
 OPTS=""
 
 while [[ $# > 0 ]]
@@ -34,13 +35,11 @@ do
   shift
 done
 
-HOMEDIR=/home/healem/bbb
 TARGETDIR=$HOMEDIR/builds/$COMPILER-$ARCH-bbb
-LIBDIR=$TARGETDIR/lib
 
-if [ ! -d $LIBDIR ]
+if [ ! -d $TARGETDIR ]
 then
-  mkdir -p $LIBDIR
+  mkdir -p $TARGETDIR
 fi
 
 # build inih
@@ -50,7 +49,8 @@ fi
 #cp lib/*.so $LIBDIR
 
 # build bbb
-cd $HOMEDIR
-cmake -DCMAKE_TOOLCHAIN_FILE=$HOMEDIR/$COMPILER-$ARCH-toolchain.cmake $OPTS
+cd $TARGETDIR
+cmake -DCMAKE_TOOLCHAIN_FILE=$HOMEDIR/$COMPILER-$ARCH-toolchain.cmake -DCMAKE_INSTALL_PREFIX=$TARGETDIR/pkg $OPTS $HOMEDIR
 make
+make install
 

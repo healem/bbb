@@ -9,6 +9,7 @@
 #define LOGGER_H_
 
 #include <syslog.h>
+#include <string>
 
 #define MAKE_STRING(x) MAKE_STRING2(x)
 #define MAKE_STRING2(x) #x

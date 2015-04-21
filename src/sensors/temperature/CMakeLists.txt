@@ -1,3 +1,10 @@
+#include_directories(${PROJECT_SOURCE_DIR}/src/common)
+#add_subdirectory(${PROJECT_SOURCE_DIR}/src/commmon)
 add_library(temperature_sensor temperature_sensor.cpp)
 add_library(temperature_sensor_manager temperature_sensor_manager.cpp)
 add_library(ds18b20 ds18b20.cpp)
+target_link_libraries(ds18b20 logger)
+target_link_libraries(temperature_sensor logger)
+target_link_libraries(temperature_sensor_manager logger ds18b20 temperature_sensor)
+install(TARGETS ds18b20 temperature_sensor temperature_sensor_manager
+        DESTINATION lib)

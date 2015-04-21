@@ -36,3 +36,5 @@ add_executable(bbb bbb.cpp)
 # Link against LLVM libraries
 #target_link_libraries(bbb ${llvm_libs})
 target_link_libraries(bbb logger temperature_sensor temperature_sensor_manager ds18b20)
+install(TARGETS bbb
+        DESTINATION bin)
