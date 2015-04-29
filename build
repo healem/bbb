@@ -2,7 +2,7 @@
 set -e
 
 export PATH="/usr/lib/llvm-3.5/bin:$PATH"
-HOMEDIR=/home/healem/bbb
+export HOMEDIR=/home/healem/bbb
 OPTS=""
 TARGET=""
 
@@ -19,6 +19,13 @@ prep()
 compile()
 {
   prep
+
+  if [ "$COMPILER" == "clang" ]
+  then
+    #OPTS="-DCMAKE_USER_MAKE_RULES_OVERRIDE=$HOMEDIR/$COMPILER-$ARCH-overrides.txt"
+    OPTS="-DCMAKE_USER_MAKE_RULES_OVERRIDE=$HOMEDIR/$COMPILER-overrides.txt"
+    #OPTS=""
+  fi
 
   # build bbb
   cd $TARGETDIR
@@ -51,7 +58,6 @@ do
     clang)
     echo "using clang"
     COMPILER="$key"
-    OPTS="-DCMAKE_USER_MAKE_RULES_OVERRIDE=$HOMEDIR/clang-overrides.txt"
     ;;
     gnu)
     echo "using gnu"
@@ -84,7 +90,7 @@ do
   shift
 done
 
-if [ $TARGET == "" ]
+if [ "$TARGET" == "" ]
 then
   compile
 else
