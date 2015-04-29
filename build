@@ -1,8 +1,47 @@
 #!/bin/bash
 set -e
 
+export PATH="/usr/lib/llvm-3.5/bin:$PATH"
 HOMEDIR=/home/healem/bbb
 OPTS=""
+TARGET=""
+
+prep()
+{
+  TARGETDIR=$HOMEDIR/builds/$COMPILER-$ARCH-bbb
+
+  if [ ! -d $TARGETDIR ]
+  then
+    mkdir -p $TARGETDIR
+  fi
+}
+
+compile()
+{
+  prep
+
+  # build bbb
+  cd $TARGETDIR
+  cmake -DCMAKE_TOOLCHAIN_FILE=$HOMEDIR/$COMPILER-$ARCH-toolchain.cmake -DCMAKE_INSTALL_PREFIX=$TARGETDIR/pkg $OPTS $HOMEDIR
+  make
+  make install
+}
+
+analyze()
+{
+  prep
+
+  cd $TARGETDIR
+  cmake -DCMAKE_TOOLCHAIN_FILE=$HOMEDIR/$COMPILER-$ARCH-toolchain.cmake -DCMAKE_INSTALL_PREFIX=$TARGETDIR/pkg $OPTS $HOMEDIR
+  /usr/bin/scan-build-3.5 make "$@"
+  make install
+}
+
+clean()
+{
+  rm -rf $HOMEDIR/builds/*
+  exit 0
+}  
 
 while [[ $# > 0 ]]
 do
@@ -26,6 +65,16 @@ do
     echo "targeting intel"
     ARCH="$key"
     ;;
+    analyze)
+    echo "running static analyzer"
+    ARCH="intel"
+    COMPILER="clang-analyzer"
+    TARGET="analyze"
+    ;;
+    clean)
+    echo "cleaning all builds"
+    clean
+    ;;
     *)
     echo "Unknown option, using defaults"
     COMPILER="gnu"
@@ -35,11 +84,11 @@ do
   shift
 done
 
-TARGETDIR=$HOMEDIR/builds/$COMPILER-$ARCH-bbb
-
-if [ ! -d $TARGETDIR ]
+if [ $TARGET == "" ]
 then
-  mkdir -p $TARGETDIR
+  compile
+else
+  $TARGET
 fi
 
 # build inih
@@ -49,8 +98,4 @@ fi
 #cp lib/*.so $LIBDIR
 
 # build bbb
-cd $TARGETDIR
-cmake -DCMAKE_TOOLCHAIN_FILE=$HOMEDIR/$COMPILER-$ARCH-toolchain.cmake -DCMAKE_INSTALL_PREFIX=$TARGETDIR/pkg $OPTS $HOMEDIR
-make
-make install
 
