@@ -29,3 +29,32 @@ Management systems, such as Niagara, will be able to integrate with the REST API
 The core of the bbb service is a plugin framework written in C++.  Plugins will be dynamically loaded at startup and on demand.  There will be a core set of plugins for system control (reboot, shutdown, upgrade, load/unload plugin, etc).  The core plugins are always loaded at start time.  There will also be device plugins for interacting with specific devices (temperature sensors, bacnet devices, relay boards, etc).  These will be loaded at startup time according to configuration and eventually autodetection.  They can also be loaded later, on demand.
 
 The plugin framework will also integrate with the REST frontend.  Plugins will register themselves with the framework.  As part of registration, the plugin will define public methods with defined types as input and output.  These definitions will be used to auto generate the REST API for the plugin.  The code generator will also be a plugin, itself.  It will be one of the core plugins always loaded.  
+
+#TODO
+Tasks:
+-Tasks that target a specific device
+-Tasks that target a specific service (that can run on any node)
+-Tasks that are user visible
+-Tasks that are hidden
+-Tasks registered with plugin
+-Maybe in C++ and core service
+  -Distribution could still be a separate service
+  -Or is it better to separate tasks as its own service?
+    -Would need multiple plugin frameworks?
+-Need to be re-entrant to allow for asynchronous task execution
+
+Events/Alarms:
+-Event/Alarm service
+-Plugins register for notification (over AMQP?)
+-Rules engine is always notified
+-Event/Alarm definitions in json, delivered with plugin?
+
+User Multitenancy, RBAC, Audit trail, authentication, permissions
+-Should be able to create multiple tenants with access to certain objects
+-Users get roles that give access to certain objects
+-OAuth integration?
+-Change UI view depending on admin vs user?
+
+Federation authentication
+-How to authenticate nodes - cert exchange at join time?
+-Is crypto needed?  Certainly for user auth, but normal data?
