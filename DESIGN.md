@@ -5,13 +5,13 @@ The system is designed around small controllers that interact with a variety of 
 The initial controller will run Ubuntu 14.04 and transition to Ubuntu Snappy Core.
 
 The controller will have a few different services:
--Device plugin framework: interacts directly with hardware, written in C++
--REST API front end: control interface, written in go
--Distributed config db: federation config and monitoring, based on Consul
--Distributed time-series db: stores sensor data, likely based on BodyTrack Datastore or maybe Influx db with distribution added
--RabbitMQ: for inter-service communication, multi-language
--Rules engine: plugin based engine for automating actions based on rules, language TBD
--Management interface: web-based UI - mobile and desktop friendly, likely using bootstrap
+- Device plugin framework: interacts directly with hardware, written in C++
+- REST API front end: control interface, written in go
+- Distributed config db: federation config and monitoring, based on Consul
+- Distributed time-series db: stores sensor data, likely based on BodyTrack Datastore or maybe Influx db with distribution added
+- RabbitMQ: for inter-service communication, multi-language
+- Rules engine: plugin based engine for automating actions based on rules, language TBD
+- Management interface: web-based UI - mobile and desktop friendly, likely using bootstrap
 
 ##Features to enable third-party integration
 There are a few different features planned to enable easy integration with third-party devices, controllers, and management systems.
@@ -32,29 +32,29 @@ The plugin framework will also integrate with the REST frontend.  Plugins will r
 
 #TODO
 Tasks:
--Tasks that target a specific device
--Tasks that target a specific service (that can run on any node)
--Tasks that are user visible
--Tasks that are hidden
--Tasks registered with plugin
--Maybe in C++ and core service
-  -Distribution could still be a separate service
-  -Or is it better to separate tasks as its own service?
-    -Would need multiple plugin frameworks?
--Need to be re-entrant to allow for asynchronous task execution
+- Tasks that target a specific device
+- Tasks that target a specific service (that can run on any node)
+- Tasks that are user visible
+- Tasks that are hidden
+- Tasks registered with plugin
+- Maybe in C++ and core service
+  - Distribution could still be a separate service
+  - Or is it better to separate tasks as its own service?
+    - Would need multiple plugin frameworks?
+- Need to be re-entrant to allow for asynchronous task execution
 
 Events/Alarms:
--Event/Alarm service
--Plugins register for notification (over AMQP?)
--Rules engine is always notified
--Event/Alarm definitions in json, delivered with plugin?
+- Event/Alarm service
+- Plugins register for notification (over AMQP?)
+- Rules engine is always notified
+- Event/Alarm definitions in json, delivered with plugin?
 
 User Multitenancy, RBAC, Audit trail, authentication, permissions
--Should be able to create multiple tenants with access to certain objects
--Users get roles that give access to certain objects
--OAuth integration?
--Change UI view depending on admin vs user?
+- Should be able to create multiple tenants with access to certain objects
+- Users get roles that give access to certain objects
+- OAuth integration?
+- Change UI view depending on admin vs user?
 
 Federation authentication
--How to authenticate nodes - cert exchange at join time?
--Is crypto needed?  Certainly for user auth, but normal data?
+- How to authenticate nodes - cert exchange at join time?
+- Is crypto needed?  Certainly for user auth, but normal data?
