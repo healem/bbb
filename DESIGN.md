@@ -78,3 +78,41 @@ Each plugin instance gets a unique to the federation service locator address.  T
   - Parent may have another threshold for sending to its parent?  Or is it only 2 levels?
     - Parent could be distributed or single service?  (1 or more parents?)
 - Rules/policies stored in Consul
+
+##Upgrade
+- OS upgrade
+- Core service upgrade (ie- framework)
+- Plugin upgrade
+- Versioning and interop
+  - protocol (AMQP)
+  - REST API
+  - Database
+
+##Health check
+- Integrate with Consul health reporting
+- Monitor space, cpu, memory
+- Monitor HW health
+
+#Database sizing
+- device local
+  - granular time-series
+- replicated
+  - configuration
+  - coarse time-series
+  - event history
+  - audit trail?
+
+#Support info gathering
+- Logging and log rotation
+  - where do plugins log?
+- What to gather?
+- Phone home capability?
+- Support user access
+
+#Installation
+- New device
+- New plugin
+- Compute only nodes? Just UI and rules engine?
+
+#Configuration export and backup
+- Templates?
