@@ -30,8 +30,12 @@ The core of the bbb service is a plugin framework written in C++.  Plugins will 
 
 The plugin framework will also integrate with the REST frontend.  Plugins will register themselves with the framework.  As part of registration, the plugin will define public methods with defined types as input and output.  These definitions will be used to auto generate the REST API for the plugin.  The code generator will also be a plugin, itself.  It will be one of the core plugins always loaded.  
 
+Plugins will register events it emits, events it wishes to receive, tasks it can run, roles required for each task.
+
+Each plugin instance gets a unique to the federation service locator address.  This is stored in Consul and is used to identify where events came from and where tasks need to be run
+
 #TODO
-Tasks:
+##Tasks:
 - Tasks that target a specific device
 - Tasks that target a specific service (that can run on any node)
 - Tasks that are user visible
@@ -42,19 +46,35 @@ Tasks:
   - Or is it better to separate tasks as its own service?
     - Would need multiple plugin frameworks?
 - Need to be re-entrant to allow for asynchronous task execution
+- Tasks are run as a user that belongs to a tenant(s)
 
-Events/Alarms:
+
+##Events/Alarms:
 - Event/Alarm service
 - Plugins register for notification (over AMQP?)
+  - Framework handles AMQP to event handler translation so plugins dont need to know AMQP
+  - Framework registers plugin with rules engine for event notification
 - Rules engine is always notified
 - Event/Alarm definitions in json, delivered with plugin?
+- Events trigger and clear alarms
 
-User Multitenancy, RBAC, Audit trail, authentication, permissions
+##User Multitenancy, RBAC, Audit trail, authentication, permissions
 - Should be able to create multiple tenants with access to certain objects
 - Users get roles that give access to certain objects
-- OAuth integration?
+- Plugin framework handles permissions and tenancy
+  - Each Task has its own permission created automatically by framework: plugin.taskName
+  - Tasks can specify role required to execute it (need to define roles)
+    - Makes it easier to set defaults and auto add perms to existing users when adding new device
+  - Tenancy fully handled in framework
+- OAuth integration?  Users/roles in LDAP?  Something else?  Keystone?
 - Change UI view depending on admin vs user?
 
-Federation authentication
+##Federation authentication
 - How to authenticate nodes - cert exchange at join time?
 - Is crypto needed?  Certainly for user auth, but normal data?
+
+##Rules engine
+- Tiered: first level runs on device, send events to parent (ie- when threshold exceeded)
+  - Parent may have another threshold for sending to its parent?  Or is it only 2 levels?
+    - Parent could be distributed or single service?  (1 or more parents?)
+- Rules/policies stored in Consul
