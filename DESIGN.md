@@ -13,6 +13,39 @@ The controller will have a few different services:
 - Rules engine: plugin based engine for automating actions based on rules, language TBD
 - Management interface: web-based UI - mobile and desktop friendly, likely using bootstrap
 
+![Alt text](http://g.gravizo.com/g?
+@startuml;
+node "Controller"{
+frame "Application server"{
+[REST API]
+}
+frame "Plugin Framework"{
+[Device plugin1]
+[Device plugin2]
+[local task engine]
+[local rules engine]
+[system monitor]
+}
+database "Time series"{
+[sensor data]
+[event tracking]
+[task history]
+[audit]
+}
+database "Consul"{
+[config data]
+[service locator]
+}
+}
+cloud "Distributed services"{
+[task engine]
+[rules engine]
+[UI service]
+[user auth]
+}
+@enduml
+)
+
 ##Features to enable third-party integration
 There are a few different features planned to enable easy integration with third-party devices, controllers, and management systems.
 
@@ -89,6 +122,7 @@ participant "Distributed TaskEngine" as D;
 participant "Distributed PolEngine" as E;
 User -> A: Enter room;
 activate A;
+deactivate A;
 A -> B: Room occupied event;
 activate B;
 B -> C: Room occupied event;
@@ -103,7 +137,6 @@ D --> B: Turn on lights task;
 D --> B: Turn up heat task;
 deactivate D;
 deactivate B;
-deactivate A;
 @enduml
 )
 
