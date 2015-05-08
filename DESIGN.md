@@ -44,10 +44,12 @@ cloud "Distributed services"{
 [UI service]
 [user auth]
 }
+[UI] --> [UI service] : HTTPS
 [local task engine] <--> [task engine] : AMQP
 [local rules engine] <--> [rules engine] : AMQP
-[UI] <-- [REST API] : HTTP
+[UI service] <-- [REST API] : HTTPS
 [REST API] <-- [AMQP plugin] : AMQP
+User -> [UI]
 @enduml
 )
 
