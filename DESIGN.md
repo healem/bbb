@@ -20,6 +20,7 @@ frame "Application server"{
 [REST API]
 }
 frame "Plugin Framework"{
+[AMQP plugin]
 [Device plugin1]
 [Device plugin2]
 [local task engine]
@@ -43,6 +44,10 @@ cloud "Distributed services"{
 [UI service]
 [user auth]
 }
+[local task engine] <--> [task engine] : AMQP
+[local rules engine] <--> [rules engine] : AMQP
+[UI] <-- [REST API] : HTTP
+[REST API] <-- [AMQP plugin] : AMQP
 @enduml
 )
 
