@@ -15,7 +15,7 @@ The controller will have a few different services:
 
 ![Alt text](http://g.gravizo.com/g?
 @startuml;
-node "Controller" as C{
+node "Controller" {
 frame "Application server"{
 [REST API]
 }
@@ -38,16 +38,16 @@ database "Consul"{
 [service locator]
 }
 }
-cloud "Distributed services" top of C{
+cloud "Distributed services"{
 [task engine]
 [rules engine]
 [UI service]
 [user auth]
 }
-[UI] --> [UI service] : HTTPS
-[local task engine] <--> [task engine] : AMQP
-[local rules engine] <--> [rules engine] : AMQP
-[UI service] <-- [REST API] : HTTPS
+[UI] -down-> [UI service] : HTTPS
+[local task engine] <-up-> [task engine] : AMQP
+[local rules engine] <-up-> [rules engine] : AMQP
+[UI service] <-up- [REST API] : HTTPS
 [REST API] <-- [AMQP plugin] : AMQP
 User -> [UI]
 @enduml
