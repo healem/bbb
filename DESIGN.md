@@ -79,6 +79,34 @@ Each plugin instance gets a unique to the federation service locator address.  T
     - Parent could be distributed or single service?  (1 or more parents?)
 - Rules/policies stored in Consul
 
+![Alt text](http://g.gravizo.com/g?
+@startuml;
+actor User;
+participant "Device Plugin Occ Sensor" as A;
+participant "Device framework" as B;
+participant "Device Local PolEngine" as C;
+participant "Distributed TaskEngine" as D;
+participant "Distributed PolEngine" as E;
+User -> A: Enter room;
+activate A;
+A -> B: Room occupied event;
+activate B;
+B -> C: Room occupied event;
+activate C;
+C --> E: Room occupied event;
+activate E;
+deactivate C;
+E --> D: Prepare room task;
+activate D;
+deactivate E;
+D --> B: Turn on lights task;
+D --> B: Turn up heat task;
+deactivate D;
+deactivate B;
+deactivate A;
+@enduml
+)
+
 ##Upgrade
 - OS upgrade
 - Core service upgrade (ie- framework)
