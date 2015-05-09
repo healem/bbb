@@ -7,6 +7,8 @@ The initial controller will run Ubuntu 14.04 and transition to Ubuntu Snappy Cor
 The controller will have a few different services:
 - Device plugin framework: interacts directly with hardware, written in C++
 - REST API front end: control interface, written in go
+  - Each controller has a REST API
+  - Distribute UI service also has a REST API (hosted in same application server)
 - Distributed config db: federation config and monitoring, based on Consul
 - Distributed time-series db: stores sensor data, likely based on BodyTrack Datastore or maybe Influx db with distribution added
 - RabbitMQ: for inter-service communication, multi-language
@@ -74,8 +76,7 @@ Plugins will register events it emits, events it wishes to receive, tasks it can
 
 Each plugin instance gets a unique to the federation service locator address.  This is stored in Consul and is used to identify where events came from and where tasks need to be run
 
-#TODO
-##Tasks:
+#Tasks:
 - Tasks that target a specific device
 - Tasks that target a specific service (that can run on any node)
 - Tasks that are user visible
@@ -87,18 +88,23 @@ Each plugin instance gets a unique to the federation service locator address.  T
     - Would need multiple plugin frameworks?
 - Need to be re-entrant to allow for asynchronous task execution
 - Tasks are run as a user that belongs to a tenant(s)
+- Task addressed/named: device.pluginInstance.task
 
-
-##Events/Alarms:
+#Events/Alarms:
 - Event/Alarm service
 - Plugins register for notification (over AMQP?)
   - Framework handles AMQP to event handler translation so plugins dont need to know AMQP
   - Framework registers plugin with rules engine for event notification
 - Rules engine is always notified
-- Event/Alarm definitions in json, delivered with plugin?
+- Event/Alarm definitions in json
+    - delivered with plugin
+    - events belong to 1 or more categories (for easy glob registration)
+      - arbitrarily defined, with some standard ones (security, occupancy, temp, etc)
+    - internationalized - json file per language
+    - event addressed/named: device.pluginInstance.event
 - Events trigger and clear alarms
 
-##User Multitenancy, RBAC, Audit trail, authentication, permissions
+#User Multitenancy, RBAC, Audit trail, authentication, permissions
 - Should be able to create multiple tenants with access to certain objects
 - Users get roles that give access to certain objects
 - Plugin framework handles permissions and tenancy
@@ -109,15 +115,16 @@ Each plugin instance gets a unique to the federation service locator address.  T
 - OAuth integration?  Users/roles in LDAP?  Something else?  Keystone?
 - Change UI view depending on admin vs user?
 
-##Federation authentication
+#Federation authentication
 - How to authenticate nodes - cert exchange at join time?
 - Is crypto needed?  Certainly for user auth, but normal data?
 
-##Rules engine
+#Rules engine
 - Tiered: first level runs on device, send events to parent (ie- when threshold exceeded)
   - Parent may have another threshold for sending to its parent?  Or is it only 2 levels?
     - Parent could be distributed or single service?  (1 or more parents?)
 - Rules/policies stored in Consul
+- Rules engine is a plugin - registers for all event categories
 
 ![Alt text](http://g.gravizo.com/g?
 @startuml;
@@ -147,7 +154,7 @@ deactivate B;
 @enduml
 )
 
-##Upgrade
+#Upgrade
 - OS upgrade
 - Core service upgrade (ie- framework)
 - Plugin upgrade
@@ -156,7 +163,7 @@ deactivate B;
   - REST API
   - Database
 
-##Health check
+#Health check
 - Integrate with Consul health reporting
 - Monitor space, cpu, memory
 - Monitor HW health
@@ -184,3 +191,9 @@ deactivate B;
 
 #Configuration export and backup
 - Templates?
+
+#Internationalization
+- All outward facing strings will be internationlization friendly
+  - defined in a json or xml file with canonical name or number
+  - strings defined in a file per language
+- Debug logs do not need to be internationalized
