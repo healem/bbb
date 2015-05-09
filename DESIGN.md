@@ -1,3 +1,12 @@
+#TODO
+[ ] Begin data sizing
+[ ] Begin database design
+[ ] Add sequence diagram for adding new device/plugin
+[ ] Add flow chart for data distribution
+[ ] Begin interface definitions for plugin framework
+    [ ] How to package for easy 3rd party integration
+    [ ] Make sure headers are easy to export and license is friendly
+
 #Design
 ##Controller
 The system is designed around small controllers that interact with a variety of hardware devices and can run any of a number of software services.  The controller design is initially focused on the BeagleBone Black.  The GPIO pins will be used to interact with raw devices.  It can also interact with network based systems via ethernet and WiFi.
