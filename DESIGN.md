@@ -1,11 +1,11 @@
 #TODO
-[ ] Begin data sizing
-[ ] Begin database design
-[ ] Add sequence diagram for adding new device/plugin
-[ ] Add flow chart for data distribution
-[ ] Begin interface definitions for plugin framework
-    [ ] How to package for easy 3rd party integration
-    [ ] Make sure headers are easy to export and license is friendly
+- [ ] Begin data sizing
+- [ ] Begin database design
+- [ ] Add sequence diagram for adding new device/plugin
+- [ ] Add flow chart for data distribution
+- [ ] Begin interface definitions for plugin framework
+    - [ ] How to package for easy 3rd party integration
+    - [ ] Make sure headers are easy to export and license is friendly
 
 #Design
 ##Controller
