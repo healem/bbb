@@ -28,6 +28,7 @@ Event registration info:
 - Description (must support internationalization)
 - Type - UUID for the event class - of the form <plugin_name>.<event_name> - does not need to match event Name field
 - Visible
+- Scope (enum - node, peer, cluster, fed)
 - Level (enum - INFO, CRIT, etc)
 - Category (same as plugin category?)
 
@@ -39,6 +40,7 @@ Events are encapsulated in an object that is derived from the base event class. 
 - Description
 - Visible
 - Level
+- Scope (enum - node, peer, cluster, fed)
 - Category
 - Time - time the event was generated, UTC
 
@@ -49,6 +51,7 @@ Task registration info:
 - Name
 - Description (must support internationalization)
 - Type - UUID of the task class, of the form <plugin_name>.<task_name> - task name does not need to match the Name field
+- Scope (enum - node, peer, cluster, fed)
 - Parameters (vector of tuples: name, type, bool required)
 - Timeout
 
@@ -68,6 +71,8 @@ Tasks are encapsulated in an object that is derived from the base task class.  T
 - Name
 - Description
 - Type
+- Scope (enum - node, peer, cluster, fed)
+- ScopeId (Id of node, peer group, cluster, or fed)
 - Parameters
 - Timeout
 - StartTime - time the task is started, UTC
