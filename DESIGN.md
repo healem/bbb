@@ -6,6 +6,7 @@
 - [ ] Begin interface definitions for plugin framework
     - [ ] How to package for easy 3rd party integration
     - [ ] Make sure headers are easy to export and license is friendly
+- [ ] How to allow third party, OEM branding
 
 #Design
 ##Controller
