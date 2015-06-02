@@ -5,6 +5,11 @@ The framework is written in C++ as a series of shared libraries.
 
 The framework will manage a thread pool which is used to execute routines in the plugins.  There also need to be a mechanism to control the memory and CPU footprint of plugins.  Can cgroups work per thread?  If not, maybe a custom memory allocator?
 
+#Plugin Manager
+The plugin manager is a core part of the plugin framework - it basically is the framework.  The plugin manager is what accepts plugin registration and deregistration requests.  It is responsible for loading and unloading plugins.  It is also what routes events to the event manager plugin, tasks to the task manager plugin, and logging requests to the logging plugin.  These 3 plugins are also core plugins.  While the plugin framework will run just fine without them, the system won't function very well without them.  This is so that they can be replaced during runtime.
+
+The plugin manager must be coded such that it can deal with a poorly coded plugin.  Should a plugin experience a "fatal" or critical event, the plugin manager will simply unload it and allow other plugins to run unaffected.
+
 #Plugins
 Plugins are also written in C++.  They are stored in a sub-directory that will be scanned on startup.  All plugins present will be loaded (or should it be driven by config file?).  Plugins can be added and removed at run time.
 
