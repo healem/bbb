@@ -5,6 +5,37 @@ The framework is written in C++ as a series of shared libraries.
 
 The framework will manage a thread pool which is used to execute routines in the plugins.  There also need to be a mechanism to control the memory and CPU footprint of plugins.  Can cgroups work per thread?  If not, maybe a custom memory allocator?
 
+#Plugin Manager
+The plugin manager is a core part of the plugin framework - it basically is the framework.  The plugin manager is what accepts plugin registration and deregistration requests.  It is responsible for loading and unloading plugins.  It is also what routes events to the event manager plugin, tasks to the task manager plugin, and logging requests to the logging plugin.  These 3 plugins are also core plugins.  While the plugin framework will run just fine without them, the system won't function very well without them.  This is so that they can be replaced during runtime.
+
+The plugin manager must be coded such that it can deal with a poorly coded plugin.  Should a plugin experience a "fatal" or critical event, the plugin manager will simply unload it and allow other plugins to run unaffected.
+
+##Startup
+The plugin manager is the first to load.  It starts the core framework, then it begins to enumerate the core plugin directory.  It loads the logging, event manager, and task manager plugins - in that order.  Their order is determined by config file.  Their can be more than one logger, event manager, and task manager.
+
+Once the core plugins are loaded, it enumerates the add-on plugin directories.  Their order can be specified by config file or by default they will be loaded per directory enumeration.
+
+When it first brings up a plugin, the manager will call the plugins init method.  The plugins init method will register its events and tasks.  Once registration (init) is complete, the plugin manager will call the plugin's load method.  This is what "turns on" the plugin and enables it.
+
+#Plugin Manager Interface
+##Discover
+Method that triggers plugin discovery.  Newly discovered plugins will be init'd once discovery completes.
+
+##Register
+Is called when a plugin wants to register all of its events and tasks
+
+##Unregister
+Is called when a plugin wants to unregister all of its events and tasks
+
+##Alert
+Is called when a plugin wants to notify the plugin manager that an event occurred.  The event will be sent to all registered event managers.
+
+##Execute
+Is called when a plugin wants a task to be run.  The task will be sent to all registered task amangers.
+
+##Log
+Is called when a plugin wants to log a message to the frameworks log file.
+
 #Plugins
 Plugins are also written in C++.  They are stored in a sub-directory that will be scanned on startup.  All plugins present will be loaded (or should it be driven by config file?).  Plugins can be added and removed at run time.
 
