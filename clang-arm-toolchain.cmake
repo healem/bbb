@@ -7,13 +7,31 @@ SET(CMAKE_SYSTEM_VERSION 1)
 SET(BUILD_SHARED_LIBS ON)
 # specify the cross compiler
 SET(CMAKE_CROSSCOMPILING True)
+SET(triple arm-linux-gnueabihf)
+
+SET(CMAKE_LIBRARY_ARCHITECTURE ${triple})
+
 SET(CMAKE_C_COMPILER /usr/bin/clang-3.5)
-SET(CMAKE_C_COMPILER_TARGET arm-linux-gnueabihf)
+SET(CMAKE_C_COMPILER_TARGET ${triple})
+#SET(CMAKE_C_LINK_EXECUTABLE /usr/arm-linux-gnueabihf/bin/ld)
 SET(CMAKE_CXX_COMPILER /usr/bin/clang++-3.5)
-SET(CMAKE_CXX_COMPILER_TARGET arm-linux-gnueabihf)
+SET(CMAKE_CXX_COMPILER_TARGET ${triple})
+#SET(CMAKE_CXX_LINK_EXECUTABLE /usr/arm-linux-gnueabihf/bin/ld)
 #SET(CMAKE_STRIP /usr/bin/arm-linux-gnueabihf-strip)
 # where is the target environment
+include_directories(/usr/${triple})
 SET(CMAKE_FIND_ROOT_PATH /usr/arm-linux-gnueabihf)
+
+## CLang workarounds
+#set(lib_dir1 /usr/lib/gcc-cross/${triple}/4.8)
+#set(lib_dir2 /usr/${triple}/lib/)
+#set(CMAKE_TOOLCHAIN_LINK_FLAGS "-B${lib_dir1} -B${lib_dir2} -L${lib_dir1} -L${lib_dir2}")
+
+# CMake workarounds
+#set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_TOOLCHAIN_LINK_FLAGS} CACHE INTERNAL "exe link flags")
+#set(CMAKE_MODULE_LINKER_FLAGS ${CMAKE_TOOLCHAIN_LINK_FLAGS} CACHE INTERNAL "module link flags")
+#set(CMAKE_SHARED_LINKER_FLAGS ${CMAKE_TOOLCHAIN_LINK_FLAGS} CACHE INTERNAL "shared link flags")
+
 # Set staging area
 SET(CMAKE_STAGING_PREFIX /home/healem/clang-arm-staging)
 SET(CMAKE_INSTALL_PREFIX /home/healem/builds/clang-arm-bbb)

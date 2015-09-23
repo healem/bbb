@@ -20,12 +20,12 @@ compile()
 {
   prep
 
-  if [ "$COMPILER" == "clang" ]
-  then
-    #OPTS="-DCMAKE_USER_MAKE_RULES_OVERRIDE=$HOMEDIR/$COMPILER-$ARCH-overrides.txt"
-    OPTS="-DCMAKE_USER_MAKE_RULES_OVERRIDE=$HOMEDIR/$COMPILER-overrides.txt"
+#  if [ "$COMPILER" == "clang" ]
+#  then
+#    OPTS="-DCMAKE_USER_MAKE_RULES_OVERRIDE=$HOMEDIR/$COMPILER-$ARCH-overrides.txt"
+    #OPTS="-DCMAKE_USER_MAKE_RULES_OVERRIDE=$HOMEDIR/$COMPILER-overrides.txt"
     #OPTS=""
-  fi
+#  fi
 
   # build bbb
   cd $TARGETDIR
