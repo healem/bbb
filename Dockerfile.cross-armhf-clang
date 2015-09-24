@@ -1,0 +1,34 @@
+FROM ubuntu:trusty
+MAINTAINER Mike Healey <healem@gmail.com>
+
+ENV CODENAME trusty
+
+ADD sources.list /etc/apt/sources.list
+
+RUN apt-get update
+
+## Install normal build environment
+RUN apt-get install -yq \
+    build-essential \ 
+    curl \
+    ca-certificates \
+    git \ 
+    --no-install-recommends; \
+    apt-get clean
+    
+## Install cross-compile dependencies
+RUN apt-get install -yq \
+    clang-3.5 \
+    libc6-dev-i386 \
+    gcc-arm-linux-gnueabihf \
+    g++-arm-linux-gnueabihf \
+    cpp-arm-linux-gnueabihf \
+    binutils-arm-linux-gnueabihf \
+    --no-install-recommends; \
+    apt-get clean
+
+# See https://bugs.launchpad.net/ubuntu/+source/linux/+bug/778047
+RUN ln -s /usr/include/asm-generic /usr/include/asm
+
+## Shared access to source
+#VOLUME /home/healem/bbb

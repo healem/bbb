@@ -6,8 +6,8 @@ SET(CMAKE_SYSTEM_VERSION 1)
 # force shared libs to be built
 SET(BUILD_SHARED_LIBS ON)
 # specify the cross compiler
-SET(CMAKE_C_COMPILER /usr/bin/clang-3.5)
-SET(CMAKE_CXX_COMPILER /usr/bin/clang++-3.5)
+SET(CMAKE_C_COMPILER /usr/bin/clang)
+SET(CMAKE_CXX_COMPILER /usr/bin/clang++)
 #SET(CMAKE_STRIP /usr/bin/strip)
 # where is the target environment
 SET(CMAKE_FIND_ROOT_PATH /lib/x86_64-linux-gnu)

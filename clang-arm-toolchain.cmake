@@ -11,10 +11,10 @@ SET(triple arm-linux-gnueabihf)
 
 SET(CMAKE_LIBRARY_ARCHITECTURE ${triple})
 
-SET(CMAKE_C_COMPILER /usr/bin/clang-3.5)
+SET(CMAKE_C_COMPILER /usr/bin/clang)
 SET(CMAKE_C_COMPILER_TARGET ${triple})
 #SET(CMAKE_C_LINK_EXECUTABLE /usr/arm-linux-gnueabihf/bin/ld)
-SET(CMAKE_CXX_COMPILER /usr/bin/clang++-3.5)
+SET(CMAKE_CXX_COMPILER /usr/bin/clang++)
 SET(CMAKE_CXX_COMPILER_TARGET ${triple})
 #SET(CMAKE_CXX_LINK_EXECUTABLE /usr/arm-linux-gnueabihf/bin/ld)
 #SET(CMAKE_STRIP /usr/bin/arm-linux-gnueabihf-strip)
