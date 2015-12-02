@@ -1,0 +1,22 @@
+#cd ~
+#apt-get source libattr1
+
+export PKG_CONFIG=/usr/bin/arm-linux-gnueabi-pkg-config
+export ARCH=arm
+export CROSS=/usr/bin/arm-linux-gnueabihf-
+export CCSHARE="-fPIC"
+export CXXFLAGS="-fPIC"
+export LDFLAGS=-L/usr/arm-linux-gnueabihf
+export CC=${CROSS}gcc
+#export CPP=${CROSS}g++
+export LD=${CROSS}ld
+export AS=${CROSS}as
+export AR=${CROSS}ar
+export RANLIB=${CROSS}ranlib
+cd ~/attr-2.4.47
+./configure CC=$CC LDFLAGS=${LDFLAGS} --host=arm-linux-gnueabihf --prefix=/usr/arm-linux-gnueabihf --enable-shared
+make SHOW=1
+sudo make install
+sudo cp -ar /home/healem/attr-2.4.47/include/attr /usr/arm-linux-gnueabihf/include
+sudo cp -ar /home/healem/attr-2.4.47/libattr/.libs/* /usr/arm-linux-gnueabihf/lib/
+sudo rm -f /usr/arm-linux-gnueabihf/lib/libattr.la

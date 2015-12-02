@@ -1,0 +1,36 @@
+sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf pkg-config-arm-linux-gnueabihf make
+sudo apt-get install scons uncrustif 
+
+mkdir -p /tmp/openssl
+mkdir -p /home/alljoyn/deps/openssl
+cd /tmp/openssl
+wget http://www.openssl.org/source/openssl-1.0.1i.tar.gz
+tar -zxvf openssl-1.0.1i.tar.gz
+cd openssl-1.0.1i
+export PKG_CONFIG=/usr/bin/arm-linux-gnueabi-pkg-config
+export ARCH=arm
+export CROSS_COMPILE=arm-linux-gnueabi-
+./Configure --openssldir=/home/alljoyn/deps/openssl shared os/compiler:${CROSS_COMPILE}
+make CC=${CROSS_COMPILE}gcc RANLIB=${CROSS_COMPILE}ranlib
+make install
+  
+mkdir -p /home/alljoyn/src
+cd /home/alljoyn/src
+wget https://allseenalliance.org/releases/alljoyn/14.06.00/alljoyn-suite-14.06.00a-src.tar.gz
+tar -zxvf alljoyn-suite-14.06.00a-src.tar.gz
+cd alljoyn-suite-14.06.00a-src
+export AJ_ROOT=`pwd`
+mkdir -p /home/alljoyn/oe_base/bin
+ln -s /usr/bin/arm-linux-gnueabi-g++ /home/alljoyn/oe_base/bin/arm-angstrom-linux-gnueabi-g++
+ln -s /usr/bin/arm-linux-gnueabi-gcc /home/alljoyn/oe_base/bin/arm-angstrom-linux-gnueabi-gcc
+export OE_BASE=/home/alljoyn/oe_base
+export OPENSSL_ROOT=/home/alljoyn/deps/openssl
+cd core/alljoyn
+scons CPU=arm OS=linux BINDINGS=c,cpp WS=off 
+
+http://innerdot.com/alljoyn/getting-up-and-going-with-the-alljoyn-sdk-and-beaglebone-black
+
+more notes:
+https://allseenalliance.org/framework/documentation/develop/building/linux/build-source
+https://ask.allseenalliance.org/question/4347/how-to-cross-compile-alljoyn-standard-core-and-service-framework/
+https://wiki.allseenalliance.org/develop/building_and_running

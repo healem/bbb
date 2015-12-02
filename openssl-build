@@ -1,0 +1,17 @@
+export PKG_CONFIG=/usr/bin/arm-linux-gnueabi-pkg-config
+export ARCH=arm
+export CROSS=/usr/bin/arm-linux-gnueabihf
+export CCSHARE="-fPIC"
+export CXXFLAGS="-fPIC"
+export CC=gcc
+export LD=ld
+export AS=as
+export AR=ar
+export RANLIB=ranlib
+mkdir -p /home/healem/builds/openssl
+cd ~/openssl
+./Configure linux-armv4 -march=armv7-a -mfloat-abi=hard --cross-compile-prefix=arm-linux-gnueabihf- shared --openssldir=/home/healem/builds/openssl -shared 
+make SHOW=1
+make install
+sudo cp -ar /home/healem/builds/openssl/include/openssl /usr/arm-linux-gnueabihf/include
+sudo cp -ar /home/healem/builds/openssl/lib/* /usr/arm-linux-gnueabihf/lib/

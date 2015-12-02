@@ -1,0 +1,16 @@
+export CC=/usr/bin/arm-linux-gnueabihf-gcc
+export LD=/usr/bin/arm-linux-gnueabihf-ld
+export CFLAGS="-march=armv7-a -mfloat-abi=hard -fPIC"
+export LDFLAGS="-L/usr/arm-linux-gnueabihf"
+cd ~/libcap
+sudo ln -s /usr/arm-linux-gnueabihf/lib/libc.so.6 /lib/libc.so.6
+sudo cp /usr/arm-linux-gnueabihf/lib/ld-linux-armhf.so.3 /lib/ld-linux-armhf.so.3
+sudo cp /usr/lib/gcc-cross/arm-linux-gnueabihf/4.8/crtbeginT.o /usr/lib/gcc-cross/arm-linux-gnueabihf/4.8/crtbeginT.orig
+sudo cp /usr/lib/gcc-cross/arm-linux-gnueabihf/4.8/crtbeginS.o /usr/lib/gcc-cross/arm-linux-gnueabihf/4.8/crtbeginT.o
+make "CC=$CC" SHOW=1 "CFLAGS=$CFLAGS" "LDFLAGS=$LDFLAGS"
+sudo cp /usr/lib/gcc-cross/arm-linux-gnueabihf/4.8/crtbeginT.orig /usr/lib/gcc-cross/arm-linux-gnueabihf/4.8/crtbeginT.o
+sudo rm /usr/lib/gcc-cross/arm-linux-gnueabihf/4.8/crtbeginT.orig
+sudo rm /lib/libc.so.6
+sudo make install
+sudo cp -ar libcap/include/* /usr/arm-linux-gnueabihf/include/
+sudo cp libcap/libcap* /usr/arm-linux-gnueabihf/lib/

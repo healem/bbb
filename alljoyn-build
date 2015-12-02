@@ -1,0 +1,23 @@
+cd ../alljoyn
+export OPENSSL_ROOT="~/builds/openssl"
+export BINDINGS="cpp"
+export WS="off"
+export BT="off"
+export ICE="off"
+export OS="openwrt"
+export CPU="openwrt"
+#export CROSS_COMPILE="/usr/bin/arm-linux-gnueabihf-"
+export CROSS_COMPILE=""
+export TARGET_PATH="$PATH"
+export TARGET_CC="arm-linux-gnueabihf-gcc"
+export TARGET_CFLAGS="-std=c++0x"
+export TARGET_CPPFLAGS="-std=c++0x"
+export TARGET_CXX="arm-linux-gnueabihf-g++"
+export TARGET_LINK="arm-linux-gnueabihf-gcc"
+export TARGET_LINKFLAGS=""
+export TARGET_AR="arm-linux-gnueabihf-ar"
+export TARGET_RANLIB="arm-linux-gnueabihf-ranlib"
+export VARIANT=release
+export STAGING_DIR="/usr/arm-linux-gnueabihf"
+export SERVICES="about,notification,controlpanel,config,onboarding,sample_apps"
+scons V=1 BINDINGS=$BINDINGS WS=$WS BT=$BT ICE=$ICE OS=$OS CPU=$CPU CROSS_COMPILE=$CROSS_COMPILE TARGET_PATH=$TARGET_PATH TARGET_CC=$TARGET_CC TARGET_CFLAGS=$TARGET_CFLAGS TARGET_CPPFLAGS=$TARGET_CPPFLAGS TARGET_CXX=$TARGET_CXX TARGET_LINK=$TARGET_LINK "TARGET_LINKFLAGS=$TARGET_LINKFLAGS" TARGET_AR=$TARGET_AR TARGET_RANLIB=$TARGET_RANLIB VARIANT=$VARIANT STAGING_DIR=$STAGING_DIR SERVICES=$SERVICES
