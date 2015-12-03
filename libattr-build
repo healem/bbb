@@ -1,22 +1,95 @@
 #cd ~
 #apt-get source libattr1
 
-export PKG_CONFIG=/usr/bin/arm-linux-gnueabi-pkg-config
-export ARCH=arm
-export CROSS=/usr/bin/arm-linux-gnueabihf-
-export CCSHARE="-fPIC"
-export CXXFLAGS="-fPIC"
-export LDFLAGS=-L/usr/arm-linux-gnueabihf
-export CC=${CROSS}gcc
-#export CPP=${CROSS}g++
-export LD=${CROSS}ld
-export AS=${CROSS}as
-export AR=${CROSS}ar
-export RANLIB=${CROSS}ranlib
-cd ~/attr-2.4.47
-./configure CC=$CC LDFLAGS=${LDFLAGS} --host=arm-linux-gnueabihf --prefix=/usr/arm-linux-gnueabihf --enable-shared
-make SHOW=1
-sudo make install
-sudo cp -ar /home/healem/attr-2.4.47/include/attr /usr/arm-linux-gnueabihf/include
-sudo cp -ar /home/healem/attr-2.4.47/libattr/.libs/* /usr/arm-linux-gnueabihf/lib/
-sudo rm -f /usr/arm-linux-gnueabihf/lib/libattr.la
+set -e
+
+compile()
+{
+  if [ $ARCH == "arm" ]
+  then
+    compile-arm
+  else
+    compile-intel
+  fi
+}
+
+compile-arm()
+{
+  export PKG_CONFIG=/usr/bin/arm-linux-gnueabi-pkg-config
+  export ARCH=arm
+  export CROSS=/usr/bin/arm-linux-gnueabihf-
+  export CCSHARE="-fPIC"
+  export CXXFLAGS="-fPIC"
+  export LDFLAGS=-L/usr/arm-linux-gnueabihf
+  export CC=${CROSS}gcc
+  export LD=${CROSS}ld
+  export AS=${CROSS}as
+  export AR=${CROSS}ar
+  export RANLIB=${CROSS}ranlib
+  export PREFIX=/home/healem/builds/gnu/arm/libattr
+  cd ~/attr-2.4.47
+  ./configure CC=$CC LDFLAGS=${LDFLAGS} --host=arm-linux-gnueabihf --prefix=${PREFIX} --libdir=${PREFIX}/lib --includedir=${PREFIX}/include --enable-shared
+  make SHOW=1
+  make install
+  make install-lib
+  make install-dev
+  sudo cp -ar ${PREFIX}/include/attr /usr/arm-linux-gnueabihf/include
+  sudo cp -ar ${PREFIX}/lib/* /usr/arm-linux-gnueabihf/lib/
+}
+
+compile-intel()
+{
+  export PREFIX=/home/healem/builds/gnu/intel/libattr
+  cd ~/attr-2.4.47
+  ./configure --enable-shared --prefix=${PREFIX} --libdir=${PREFIX}/lib --includedir=${PREFIX}/include
+  make SHOW=1
+  make install
+  make install-lib
+  make install-dev
+}
+
+clean()
+{
+  cd ~/attr-2.4.47
+  make clean
+  rm -rf /home/healem/builds/gnu/arm/libattr
+  rm -rf /home/healem/builds/gnu/intel/libattr
+  sudo rm -rf /usr/arm-linux-gnueabihf/include/attr
+}
+
+while [[ $# > 0 ]]
+do
+  key="$1"
+
+  case $key in
+    gnu)
+    echo "using gnu compiler"
+    COMPILER=gnu
+    ;;
+    clang)
+    echo "clang compiler not yet supported"
+    exit 1
+    ;;
+    arm)
+    echo "using arm arch"
+    ARCH=arm
+    ;;
+    intel)
+    echo "using intel arch"
+    ARCH=intel
+    ;;
+    clean)
+    echo "cleaning libattr build"
+    clean
+    exit 0
+    ;;
+    *)
+    echo "Unknown option, using defaults"
+    COMPILER="gnu"
+    ARCH="arm"
+    ;;
+  esac
+  shift
+done
+
+compile

@@ -8,7 +8,7 @@ TARGET=""
 
 prep()
 {
-  TARGETDIR=$HOMEDIR/builds/$COMPILER-$ARCH-bbb
+  TARGETDIR=/home/healem/builds/$COMPILER/$ARCH/bbb
 
   if [ ! -d $TARGETDIR ]
   then
@@ -46,7 +46,10 @@ analyze()
 
 clean()
 {
-  rm -rf $HOMEDIR/builds/*
+  rm -rf /home/healem/builds/gnu/arm/bbb
+  rm -rf /home/healem/builds/gnu/intel/bbb
+  rm -rf /home/healem/builds/clang/arm/bbb
+  rm -rf /home/healem/builds/clang/intel/bbb
   exit 0
 }  
 

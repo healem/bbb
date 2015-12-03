@@ -1,16 +1,101 @@
-export CC=/usr/bin/arm-linux-gnueabihf-gcc
-export LD=/usr/bin/arm-linux-gnueabihf-ld
-export CFLAGS="-march=armv7-a -mfloat-abi=hard -fPIC"
-export LDFLAGS="-L/usr/arm-linux-gnueabihf"
-cd ~/libcap
-sudo ln -s /usr/arm-linux-gnueabihf/lib/libc.so.6 /lib/libc.so.6
-sudo cp /usr/arm-linux-gnueabihf/lib/ld-linux-armhf.so.3 /lib/ld-linux-armhf.so.3
-sudo cp /usr/lib/gcc-cross/arm-linux-gnueabihf/4.8/crtbeginT.o /usr/lib/gcc-cross/arm-linux-gnueabihf/4.8/crtbeginT.orig
-sudo cp /usr/lib/gcc-cross/arm-linux-gnueabihf/4.8/crtbeginS.o /usr/lib/gcc-cross/arm-linux-gnueabihf/4.8/crtbeginT.o
-make "CC=$CC" SHOW=1 "CFLAGS=$CFLAGS" "LDFLAGS=$LDFLAGS"
-sudo cp /usr/lib/gcc-cross/arm-linux-gnueabihf/4.8/crtbeginT.orig /usr/lib/gcc-cross/arm-linux-gnueabihf/4.8/crtbeginT.o
-sudo rm /usr/lib/gcc-cross/arm-linux-gnueabihf/4.8/crtbeginT.orig
-sudo rm /lib/libc.so.6
-sudo make install
-sudo cp -ar libcap/include/* /usr/arm-linux-gnueabihf/include/
-sudo cp libcap/libcap* /usr/arm-linux-gnueabihf/lib/
+#!/bin/bash
+set -e
+
+compile()
+{
+  if [ $ARCH == "arm" ]
+  then
+    compile-arm
+  else
+    compile-intel
+  fi
+}
+
+compile-arm()
+{
+  export CC=/usr/bin/arm-linux-gnueabihf-gcc
+  export LD=/usr/bin/arm-linux-gnueabihf-ld
+  export CFLAGS="-march=armv7-a -mfloat-abi=hard -fPIC"
+  export LDFLAGS="-L/usr/arm-linux-gnueabihf"
+  export PREFIX=/home/healem/builds/gnu/arm/libcap
+  export DESTDIR=$PREFIX
+  cd ~/libcap
+
+  ## The libcap build seems broken - some paths are hardcoded
+  ## Need to muck with file locations on system so cross-compile works
+  sudo ln -s /usr/arm-linux-gnueabihf/lib/libc.so.6 /lib/libc.so.6
+  sudo cp /usr/arm-linux-gnueabihf/lib/ld-linux-armhf.so.3 /lib/ld-linux-armhf.so.3
+  sudo cp /usr/lib/gcc-cross/arm-linux-gnueabihf/4.8/crtbeginT.o /usr/lib/gcc-cross/arm-linux-gnueabihf/4.8/crtbeginT.orig
+  sudo cp /usr/lib/gcc-cross/arm-linux-gnueabihf/4.8/crtbeginS.o /usr/lib/gcc-cross/arm-linux-gnueabihf/4.8/crtbeginT.o
+  make RAISE_SETFCAP=no DESTDIR=$DESTDIR libdir=${PREFIX}/lib includedir=${PREFIX}/include "CC=$CC" SHOW=1 "CFLAGS=$CFLAGS" "LDFLAGS=$LDFLAGS"
+
+  ## Now cleanup some of the mess
+  sudo cp /usr/lib/gcc-cross/arm-linux-gnueabihf/4.8/crtbeginT.orig /usr/lib/gcc-cross/arm-linux-gnueabihf/4.8/crtbeginT.o
+  sudo rm /usr/lib/gcc-cross/arm-linux-gnueabihf/4.8/crtbeginT.orig
+  sudo rm /lib/libc.so.6
+
+  ## Do install
+  make RAISE_SETFCAP=no SHOW=1 DESTDIR=$DESTDIR libdir=${PREFIX}/lib includedir=${PREFIX}/include install
+  mkdir -p ${PREFIX}/lib
+  cp -ar libcap/include ${PREFIX}/
+  cp -ar libcap/libcap* ${PREFIX}/lib
+  sudo cp -ar ${PREFIX}/include/* /usr/arm-linux-gnueabihf/include/
+  sudo cp ${PREFIX}/lib/* /usr/arm-linux-gnueabihf/lib/
+}
+
+compile-intel()
+{
+  export PREFIX=/home/healem/builds/gnu/intel/libcap
+  export LDFLAGS="-L/lib/x86_64-linux-gnu"
+  cd ~/libcap
+  make "LDFLAGS=$LDFLAGS" RAISE_SETFCAP=no prefix=$PREFIX libdir=${PREFIX}/lib includedir=${PREFIX}/include SHOW=1
+  make RAISE_SETFCAP=no prefix=$PREFIX libdir=${PREFIX}/lib includedir=${PREFIX}/include install
+  mkdir -p ${PREFIX}/lib
+  cp -ar libcap/include ${PREFIX}/
+  cp -ar libcap/libcap* ${PREFIX}/lib
+}
+
+clean()
+{
+  cd ~/libcap
+  make clean
+  rm -rf /home/healem/builds/gnu/arm/libcap
+  rm -rf /home/healem/builds/gnu/intel/libcap
+}
+
+while [[ $# > 0 ]]
+do
+  key="$1"
+
+  case $key in
+    gnu)
+    echo "using gnu compiler"
+    COMPILER=gnu
+    ;;
+    clang)
+    echo "clang compiler not yet supported"
+    exit 1
+    ;;
+    arm)
+    echo "using arm arch"
+    ARCH=arm
+    ;;
+    intel)
+    echo "using intel arch"
+    ARCH=intel
+    ;;
+    clean)
+    echo "cleaning libattr build"
+    clean
+    exit 0
+    ;;
+    *)
+    echo "Unknown option, using defaults"
+    COMPILER="gnu"
+    ARCH="arm"
+    ;;
+  esac
+  shift
+done
+
+compile
