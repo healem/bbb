@@ -8,7 +8,13 @@ TARGET=""
 
 prep()
 {
+  BUILDDIR=/tmp/bbb/$COMPILER/$ARCH
   TARGETDIR=/home/healem/builds/$COMPILER/$ARCH/bbb
+
+  if [ ! -d $BUILDDIR ]
+  then
+    mkdir -p $BUILDDIR
+  fi
 
   if [ ! -d $TARGETDIR ]
   then
@@ -28,8 +34,8 @@ compile()
 #  fi
 
   # build bbb
-  cd $TARGETDIR
-  cmake -DCMAKE_TOOLCHAIN_FILE=$HOMEDIR/$COMPILER-$ARCH-toolchain.cmake -DCMAKE_INSTALL_PREFIX=$TARGETDIR/pkg $OPTS $HOMEDIR
+  cd $BUILDDIR
+  cmake -DCMAKE_TOOLCHAIN_FILE=$HOMEDIR/$COMPILER-$ARCH-toolchain.cmake -DCMAKE_INSTALL_PREFIX=$TARGETDIR $OPTS $HOMEDIR
   make
   make install
 }
@@ -38,14 +44,15 @@ analyze()
 {
   prep
 
-  cd $TARGETDIR
-  cmake -DCMAKE_TOOLCHAIN_FILE=$HOMEDIR/$COMPILER-$ARCH-toolchain.cmake -DCMAKE_INSTALL_PREFIX=$TARGETDIR/pkg $OPTS $HOMEDIR
+  cd $BUILDDIR
+  cmake -DCMAKE_TOOLCHAIN_FILE=$HOMEDIR/$COMPILER-$ARCH-toolchain.cmake -DCMAKE_INSTALL_PREFIX=$TARGETDIR $OPTS $HOMEDIR
   /usr/bin/scan-build-3.5 make "$@"
   make install
 }
 
 clean()
 {
+  rm -rf /tmp/bbb
   rm -rf /home/healem/builds/gnu/arm/bbb
   rm -rf /home/healem/builds/gnu/intel/bbb
   rm -rf /home/healem/builds/clang/arm/bbb
