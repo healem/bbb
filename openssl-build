@@ -1,17 +1,88 @@
-export PKG_CONFIG=/usr/bin/arm-linux-gnueabi-pkg-config
-export ARCH=arm
-export CROSS=/usr/bin/arm-linux-gnueabihf
-export CCSHARE="-fPIC"
-export CXXFLAGS="-fPIC"
-export CC=gcc
-export LD=ld
-export AS=as
-export AR=ar
-export RANLIB=ranlib
-mkdir -p /home/healem/builds/openssl
-cd ~/openssl
-./Configure linux-armv4 -march=armv7-a -mfloat-abi=hard --cross-compile-prefix=arm-linux-gnueabihf- shared --openssldir=/home/healem/builds/openssl -shared 
-make SHOW=1
-make install
-sudo cp -ar /home/healem/builds/openssl/include/openssl /usr/arm-linux-gnueabihf/include
-sudo cp -ar /home/healem/builds/openssl/lib/* /usr/arm-linux-gnueabihf/lib/
+#!/bin/bash
+set -e
+
+compile()
+{
+  if [ $ARCH == "arm" ]
+  then
+    compile-arm
+  else
+    compile-intel
+  fi
+}
+
+compile-arm()
+{
+  export PKG_CONFIG=/usr/bin/arm-linux-gnueabi-pkg-config
+  export ARCH=arm
+  export CROSS=/usr/bin/arm-linux-gnueabihf
+  export CCSHARE="-fPIC"
+  export CXXFLAGS="-fPIC"
+  export CC=gcc
+  export LD=ld
+  export AS=as
+  export AR=ar
+  export RANLIB=ranlib
+  export OPENSSL=/home/healem/builds/gnu/arm/openssl
+  mkdir -p $OPENSSL
+  cd ~/openssl
+  ./Configure linux-armv4 -march=armv7-a -mfloat-abi=hard --cross-compile-prefix=arm-linux-gnueabihf- -shared --openssldir=$OPENSSL
+  make SHOW=1
+  make install
+  sudo cp -ar ${OPENSSL}/include/openssl /usr/arm-linux-gnueabihf/include
+  sudo cp -ar ${OPENSSL}/lib/* /usr/arm-linux-gnueabihf/lib/
+}
+
+compile-intel()
+{
+  export OPENSSL=/home/healem/builds/gnu/intel/openssl
+  cd ~/openssl
+  ./Configure linux-x86_64 --openssldir=$OPENSSL -shared 
+  make SHOW=1
+  make install
+}
+
+clean()
+{
+  cd ~/openssl
+  make clean
+  rm -rf /home/healem/builds/gnu/arm/openssl
+  rm -rf /home/healem/builds/gnu/intel/openssl
+}
+
+while [[ $# > 0 ]]
+do
+  key="$1"
+
+  case $key in
+    gnu)
+    echo "using gnu compiler"
+    COMPILER=gnu
+    ;;
+    clang)
+    echo "clang compiler not yet supported"
+    exit 1
+    ;;
+    arm)
+    echo "using arm arch"
+    ARCH=arm
+    ;;
+    intel)
+    echo "using intel arch"
+    ARCH=intel
+    ;;
+    clean)
+    echo "cleaning libattr build"
+    clean
+    exit 0
+    ;;
+    *)
+    echo "Unknown option, using defaults"
+    COMPILER="gnu"
+    ARCH="arm"
+    ;;
+  esac
+  shift
+done
+
+compile

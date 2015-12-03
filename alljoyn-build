@@ -1,23 +1,120 @@
-cd ../alljoyn
-export OPENSSL_ROOT="~/builds/openssl"
-export BINDINGS="cpp"
-export WS="off"
-export BT="off"
-export ICE="off"
-export OS="openwrt"
-export CPU="openwrt"
-#export CROSS_COMPILE="/usr/bin/arm-linux-gnueabihf-"
-export CROSS_COMPILE=""
-export TARGET_PATH="$PATH"
-export TARGET_CC="arm-linux-gnueabihf-gcc"
-export TARGET_CFLAGS="-std=c++0x"
-export TARGET_CPPFLAGS="-std=c++0x"
-export TARGET_CXX="arm-linux-gnueabihf-g++"
-export TARGET_LINK="arm-linux-gnueabihf-gcc"
-export TARGET_LINKFLAGS=""
-export TARGET_AR="arm-linux-gnueabihf-ar"
-export TARGET_RANLIB="arm-linux-gnueabihf-ranlib"
-export VARIANT=release
-export STAGING_DIR="/usr/arm-linux-gnueabihf"
-export SERVICES="about,notification,controlpanel,config,onboarding,sample_apps"
-scons V=1 BINDINGS=$BINDINGS WS=$WS BT=$BT ICE=$ICE OS=$OS CPU=$CPU CROSS_COMPILE=$CROSS_COMPILE TARGET_PATH=$TARGET_PATH TARGET_CC=$TARGET_CC TARGET_CFLAGS=$TARGET_CFLAGS TARGET_CPPFLAGS=$TARGET_CPPFLAGS TARGET_CXX=$TARGET_CXX TARGET_LINK=$TARGET_LINK "TARGET_LINKFLAGS=$TARGET_LINKFLAGS" TARGET_AR=$TARGET_AR TARGET_RANLIB=$TARGET_RANLIB VARIANT=$VARIANT STAGING_DIR=$STAGING_DIR SERVICES=$SERVICES
+#!/bin/bash
+set -e
+set -x
+
+export CLEAN=""
+
+compile()
+{
+  if [ $ARCH == "arm" ]
+  then
+    compile-arm
+  else
+    compile-intel
+  fi
+}
+
+compile-arm()
+{
+  cd ~/alljoyn
+  export PREFIX=~/builds/gnu/arm/alljoyn
+  export OPENSSL_ROOT="~/builds/gnu/arm/openssl"
+  export BINDINGS="cpp"
+  export WS="off"
+  export BT="off"
+  export ICE="off"
+  export OS="openwrt"
+  export CPU="openwrt"
+  export CROSS_COMPILE=""
+  export TARGET_PATH="$PATH"
+  export TARGET_CC="arm-linux-gnueabihf-gcc"
+  export TARGET_CFLAGS="-std=c++0x"
+  export TARGET_CPPFLAGS="-std=c++0x"
+  export TARGET_CXX="arm-linux-gnueabihf-g++"
+  export TARGET_LINK="arm-linux-gnueabihf-gcc"
+  export TARGET_LINKFLAGS=""
+  export TARGET_AR="arm-linux-gnueabihf-ar"
+  export TARGET_RANLIB="arm-linux-gnueabihf-ranlib"
+  export VARIANT=release
+  export STAGING_DIR="/usr/arm-linux-gnueabihf"
+  export SERVICES="about,notification,controlpanel,config,onboarding,sample_apps"
+  scons V=1 BINDINGS=$BINDINGS WS=$WS BT=$BT ICE=$ICE OS=$OS CPU=$CPU CROSS_COMPILE=$CROSS_COMPILE TARGET_PATH=$TARGET_PATH TARGET_CC=$TARGET_CC TARGET_CFLAGS=$TARGET_CFLAGS TARGET_CPPFLAGS=$TARGET_CPPFLAGS TARGET_CXX=$TARGET_CXX TARGET_LINK=$TARGET_LINK "TARGET_LINKFLAGS=$TARGET_LINKFLAGS" TARGET_AR=$TARGET_AR TARGET_RANLIB=$TARGET_RANLIB $CLEAN VARIANT=$VARIANT STAGING_DIR=$STAGING_DIR SERVICES=$SERVICES
+
+  if [ "$CLEAN" == "" ]
+  then
+    mkdir -p $PREFIX
+    cp -ar build/${OS}/${CPU}/${VARIANT}/dist/cpp/* $PREFIX
+  fi
+}
+
+compile-intel()
+{
+  cd ~/alljoyn
+  export PREFIX=~/builds/gnu/intel/alljoyn
+  export OPENSSL_ROOT="~/builds/gnu/intel/openssl"
+  export BINDINGS="cpp"
+  export WS="off"
+  export BT="off"
+  export ICE="off"
+  export OS="linux"
+  export CPU="x86_64"
+  export VARIANT=release
+  export SERVICES="about,notification,controlpanel,config,onboarding,sample_apps"
+  scons V=1 BINDINGS=$BINDINGS WS=$WS BT=$BT ICE=$ICE OS=$OS CPU=$CPU $CLEAN VARIANT=$VARIANT SERVICES=$SERVICES
+
+  if [ "$CLEAN" == "" ]
+  then
+    mkdir -p $PREFIX
+    cp -ar build/${OS}/${CPU}/${VARIANT}/dist/cpp/* $PREFIX
+  fi
+}
+
+clean()
+{
+  cd ~/alljoyn
+  export CLEAN="-c"
+  ## scons only cleans when -c is present
+  ## most of the other scons options are still required for cleaning to work properly
+  ## so just call compile-$ARCH with -c present
+  compile-arm
+  compile-intel
+  rm -rf ~/builds/gnu/arm/alljoyn
+  rm -rf ~/builds/gnu/intel/alljoyn
+}
+
+while [[ $# > 0 ]]
+do
+  key="$1"
+
+  case $key in
+    gnu)
+    echo "using gnu compiler"
+    COMPILER=gnu
+    ;;
+    clang)
+    echo "clang compiler not yet supported"
+    exit 1
+    ;;
+    arm)
+    echo "using arm arch"
+    ARCH=arm
+    ;;
+    intel)
+    echo "using intel arch"
+    ARCH=intel
+    ;;
+    clean)
+    echo "cleaning libattr build"
+    clean
+    exit 0
+    ;;
+    *)
+    echo "Unknown option, using defaults"
+    COMPILER="gnu"
+    ARCH="arm"
+    ;;
+    esac
+  shift
+done
+
+compile

@@ -1,0 +1,55 @@
+#!/bin/bash
+set -e
+
+compile()
+{
+  ~/bbb/libattr-build $COMPILER $ARCH
+  ~/bbb/libcap-build $COMPILER $ARCH
+  ~/bbb/openssl-build $COMPILER $ARCH
+  ~/bbb/alljoyn-build $COMPILER $ARCH
+}
+
+clean()
+{
+  ~/bbb/libattr-build clean
+  ~/bbb/libcap-build clean
+  ~/bbb/openssl-build clean
+  ~/bbb/alljoyn-build clean
+}
+
+while [[ $# > 0 ]]
+do
+  key="$1"
+
+  case $key in
+    gnu)
+    echo "using gnu compiler"
+    COMPILER=gnu
+    ;;
+    clang)
+    echo "clang compiler not yet supported"
+    exit 1
+    ;;
+    arm)
+    echo "using arm arch"
+    ARCH=arm
+    ;;
+    intel)
+    echo "using intel arch"
+    ARCH=intel
+    ;;
+    clean)
+    echo "cleaning libattr build"
+    clean
+    exit 0
+    ;;
+    *)
+    echo "Unknown option, using defaults"
+    COMPILER="gnu"
+    ARCH="arm"
+    ;;
+  esac
+  shift
+done
+
+compile
