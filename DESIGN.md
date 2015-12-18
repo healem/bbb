@@ -27,42 +27,42 @@ The controller will have a few different services:
 
 ![Alt text](http://g.gravizo.com/g?
 @startuml;
-node "Controller" {
-frame "Application server"{
-[REST API]
-}
-frame "Plugin Framework"{
-[AMQP plugin]
-[Device plugin1]
-[Device plugin2]
-[local task engine]
-[local rules engine]
-[system monitor]
-}
-database "Time series"{
-[sensor data]
-[event tracking]
-[task history]
-[audit]
-}
-database "Consul"{
-[config data]
-[service locator]
-}
-}
-cloud "Distributed services"{
-[task engine]
-[rules engine]
-[UI service]
-[user auth]
-}
-[UI] -down-> [UI service] : HTTPS
-[local task engine] <-up-> [task engine] : AMQP
-[local rules engine] <-up-> [rules engine] : AMQP
-[UI service] <-up- [REST API] : HTTPS
-[REST API] <-- [AMQP plugin] : AMQP
-User -> [UI]
-@enduml
+node "Controller" {;
+frame "Application server"{;
+[REST API];
+};
+frame "Plugin Framework"{;
+[AMQP plugin];
+[Device plugin1];
+[Device plugin2];
+[local task engine];
+[local rules engine];
+[system monitor];
+};
+database "Time series"{;
+[sensor data];
+[event tracking];
+[task history];
+[audit];
+};
+database "Consul"{;
+[config data];
+[service locator];
+};
+};
+cloud "Distributed services"{;
+[task engine];
+[rules engine];
+[UI service];
+[user auth];
+};
+[UI] -down-> [UI service] : HTTPS;
+[local task engine] <-up-> [task engine] : AMQP;
+[local rules engine] <-up-> [rules engine] : AMQP;
+[UI service] <-up- [REST API] : HTTPS;
+[REST API] <-- [AMQP plugin] : AMQP;
+User -> [UI];
+@enduml;
 )
 
 ##Features to enable third-party integration
