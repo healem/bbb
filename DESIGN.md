@@ -26,7 +26,7 @@ The controller will have a few different services:
 - Management interface: web-based UI - mobile and desktop friendly, likely using bootstrap
 
 ![Alt text](http://g.gravizo.com/g?
-@startuml;
+@startuml
 node "Controller" {
 frame "Application server"{
 [REST API]
@@ -137,7 +137,7 @@ Each plugin instance gets a unique to the federation service locator address.  T
 - Rules engine is a plugin - registers for all event categories
 
 ![Alt text](http://g.gravizo.com/g?
-@startuml;
+@startuml
 actor User;
 participant "Device Plugin Occ Sensor" as A;
 participant "Device framework" as B;
