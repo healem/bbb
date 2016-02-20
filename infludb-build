@@ -1,0 +1,86 @@
+#!/bin/bash
+set -e
+set -x
+
+export PATH=$HOME/go/bin:$PATH
+
+compile()
+{
+  if [ $ARCH == "arm" ]
+  then
+    compile-arm
+  else
+    compile-intel
+  fi
+}
+
+compile-arm()
+{
+  cd ../gocode/src/github.com/influxdata/
+  GOOS=linux GOARCH=arm GOARM=7 go install -a ./...
+
+  ## package
+  mkdir -p ~/builds/gnu/arm/influxdata/bin
+  mkdir -p ~/builds/gnu/arm/influxdata/pkg
+  cp ../../../bin/linux_arm/* ~/builds/gnu/arm/influxdata/bin
+  cp -ar ../../../pkg/linux_arm/* ~/builds/gnu/arm/influxdata/pkg
+}
+
+compile-intel()
+{
+  cd ../gocode/src/github.com/influxdata/
+  GOROOT_FINAL=~/gocode/bin/linux_amd64 GOOS=linux GOARCH=amd64 go install -a ./...
+
+  ## package
+  mkdir -p ~/builds/gnu/intel/influxdata/bin
+  mkdir -p ~/builds/gnu/intel/influxdata/pkg
+  cp ../../../bin/* ~/builds/gnu/intel/influxdata/bin
+  cp -ar ../../../pkg/linux_amd64/* ~/builds/gnu/intel/influxdata/pkg
+}
+
+clean()
+{
+  if [ $ARCH = "arm" ]; then
+    cd ../gocode/src/github.com/influxdata/
+    GOOS=linux GOARCH=arm GOARM=7 go clean -i ./...
+  else
+    cd ../gocode/src/github.com/influxdata/
+    go clean -i ./...
+  fi
+    
+  cd ../../../
+  rm -rf pkg
+  rm -rf bin
+  rm -rf ~/builds/gnu/intel/influxdata
+  rm -rf ~/builds/gnu/arm/influxdata
+
+}
+
+while [[ $# > 0 ]]
+do
+  key="$1"
+
+  case $key in
+    arm)
+    echo "using arm arch"
+    ARCH=arm
+    ;;
+    intel)
+    echo "using intel arch"
+    ARCH=intel
+    ;;
+    clean)
+    echo "cleaning influxdb build"
+    clean
+    exit 0
+    ;;
+    *)
+    echo "Unknown option, using defaults"
+    COMPILER="gnu"
+    ARCH="arm"
+    ;;
+    esac
+  shift
+done
+
+compile

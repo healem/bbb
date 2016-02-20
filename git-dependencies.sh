@@ -20,3 +20,8 @@ git clone https://git.allseenalliance.org/gerrit/core/alljoyn.git ~/alljoyn
 cd ~/alljoyn
 git checkout -b rb15.04 remotes/origin/RB15.04
 cd ~
+
+## influxdb
+go get github.com/influxdb/influxdb
+cd ~/gocode/src/github.com/influxdata/
+go get ./...
