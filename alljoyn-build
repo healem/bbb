@@ -104,7 +104,7 @@ do
     ARCH=intel
     ;;
     clean)
-    echo "cleaning libattr build"
+    echo "cleaning alljoyn build"
     clean
     exit 0
     ;;
