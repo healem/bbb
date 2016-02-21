@@ -1,0 +1,19 @@
+## Format on a MAC
+Partition via DiskUtil, then format via command line:
+http://superuser.com/questions/527657/how-do-you-format-a-2-gb-sd-card-to-fat32-preferably-with-disk-utility
+
+create 100MB FAT partition
+Put uEnv.txt in root:
+  mmcdev=1
+  bootpart=1:2
+  mmcroot=/dev/mmcblk0p2 ro
+  optargs=quiet
+
+once booted, add new partition and format ext4 (or f2fs)
+
+mkdir /data
+
+Add /etc/fstab entries:
+/dev/mmcblk0p2  /data   ext4    discard,noatime,errors=remount-ro  0  1
+tmpfs           /tmp       tmpfs   defaults,noatime,mode=1777   0 0
+tmpfs           /var/tmp   tmpfs   defaults,noatime,mode=1777   0 0
