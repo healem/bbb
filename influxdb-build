@@ -3,6 +3,7 @@ set -e
 set -x
 
 export PATH=$HOME/go/bin:$PATH
+unset GOBIN
 
 compile()
 {
@@ -38,7 +39,9 @@ compile-intel()
   ## package
   mkdir -p ~/builds/gnu/intel/influxdata/bin
   mkdir -p ~/builds/gnu/intel/influxdata/pkg
-  cp ../../../bin/* ~/builds/gnu/intel/influxdata/bin
+  
+  ## Ugly, but only way I came up with to not copy directories and not fail the build
+  set +e; cp ../../../bin/* ~/builds/gnu/intel/influxdata/bin; set -e
   cp -ar ../../../pkg/linux_amd64/* ~/builds/gnu/intel/influxdata/pkg
 
   ## Copy config
