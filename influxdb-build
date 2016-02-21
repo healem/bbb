@@ -24,6 +24,10 @@ compile-arm()
   mkdir -p ~/builds/gnu/arm/influxdata/pkg
   cp ../../../bin/linux_arm/* ~/builds/gnu/arm/influxdata/bin
   cp -ar ../../../pkg/linux_arm/* ~/builds/gnu/arm/influxdata/pkg
+
+  ## Copy config
+  mkdir -p ~/builds/gnu/arm/influxdata/cfg
+  cp ~/bbb/configuration/influxdb/influxdb.conf ~/builds/gnu/arm/influxdata/cfg
 }
 
 compile-intel()
@@ -36,6 +40,10 @@ compile-intel()
   mkdir -p ~/builds/gnu/intel/influxdata/pkg
   cp ../../../bin/* ~/builds/gnu/intel/influxdata/bin
   cp -ar ../../../pkg/linux_amd64/* ~/builds/gnu/intel/influxdata/pkg
+
+  ## Copy config
+  mkdir -p ~/builds/gnu/intel/influxdata/cfg
+  cp ~/bbb/configuration/influxdb/influxdb.conf ~/builds/gnu/intel/influxdata/cfg
 }
 
 clean()
