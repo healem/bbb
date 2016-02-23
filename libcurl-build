@@ -1,0 +1,97 @@
+set -e
+
+compile()
+{
+  if [ $ARCH == "arm" ]
+  then
+    compile-arm
+  else
+    compile-intel
+  fi
+}
+
+compile-arm()
+{
+  export SSLDIR=/home/healem/builds/gnu/arm/openssl
+  export PKG_CONFIG=/usr/bin/arm-linux-gnueabi-pkg-config
+  export ARCH=arm
+  export CROSS=/usr/bin/arm-linux-gnueabihf-
+  export CCSHARE="-fPIC"
+  export CXXFLAGS="-fPIC"
+  export CPPFLAGS="-I${SSLDIR}/include"
+  export LDFLAGS="-L/usr/arm-linux-gnueabihf -L${SSLDIR}/lib"
+  export CC=${CROSS}gcc
+  export LD=${CROSS}ld
+  export AS=${CROSS}as
+  export AR=${CROSS}ar
+  export RANLIB=${CROSS}ranlib
+  export PREFIX=/home/healem/builds/gnu/arm/curl
+  export LIBS="-lssl"
+  cd ~/curl
+  ./buildconf
+  ./configure CC=$CC --host=arm-linux-gnueabihf --prefix=${PREFIX} --libdir=${PREFIX}/lib --includedir=${PREFIX}/include --enable-shared --with-ssl
+  make SHOW=1
+  make install
+  make install-lib
+  make install-dev
+  sudo cp -ar ${PREFIX}/include/curl /usr/arm-linux-gnueabihf/include
+  sudo cp -ar ${PREFIX}/lib/* /usr/arm-linux-gnueabihf/lib/
+}
+
+compile-intel()
+{
+  export PREFIX=/home/healem/builds/gnu/intel/curl
+  cd ~/curl
+  ./buildconf
+  ./configure --enable-shared --prefix=${PREFIX} --libdir=${PREFIX}/lib --includedir=${PREFIX}/include --enable-shared --with-ssl
+  make SHOW=1
+  make install
+  make install-lib
+  make install-dev
+}
+
+clean()
+{
+  cd ~/curl
+  make clean
+  rm -rf /home/healem/builds/gnu/arm/curl
+  rm -rf /home/healem/builds/gnu/intel/curl
+  sudo rm -rf /usr/arm-linux-gnueabihf/include/curl
+}
+
+while [[ $# > 0 ]]
+do
+  key="$1"
+
+  case $key in
+    gnu)
+    echo "using gnu compiler"
+    COMPILER=gnu
+    ;;
+    clang)
+    echo "clang compiler not yet supported"
+    exit 1
+    ;;
+    arm)
+    echo "using arm arch"
+    ARCH=arm
+    ;;
+    intel)
+    echo "using intel arch"
+    ARCH=intel
+    ;;
+    clean)
+    echo "cleaning libcurl build"
+    clean
+    exit 0
+    ;;
+    *)
+    echo "Unknown option, using defaults"
+    COMPILER="gnu"
+    ARCH="arm"
+    ;;
+  esac
+  shift
+done
+
+compile

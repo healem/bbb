@@ -25,3 +25,9 @@ cd ~
 go get github.com/influxdb/influxdb
 cd ~/gocode/src/github.com/influxdata/
 go get ./...
+
+## libcurl
+git clone https://github.com/curl/curl.git
+cd ~/curl
+git checkout tags/curl-7_35_0
+cd ~
