@@ -7,6 +7,8 @@ compile()
   ~/bbb/libcap-build $COMPILER $ARCH
   ~/bbb/openssl-build $COMPILER $ARCH
   ~/bbb/alljoyn-build $COMPILER $ARCH
+  ~/bbb/influxdb-build $COMPILER $ARCH
+  ~/bbb/libcurl-build $COMPILER $ARCH
 }
 
 clean()
@@ -15,6 +17,8 @@ clean()
   ~/bbb/libcap-build clean
   ~/bbb/openssl-build clean
   ~/bbb/alljoyn-build clean
+  ~/bbb/influxdb-build clean
+  ~/bbb/libcurl-build clean
 }
 
 while [[ $# > 0 ]]
